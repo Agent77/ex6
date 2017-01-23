@@ -1,0 +1,224 @@
+* commit ad2307512d8051a52b4d43556a2498e6f3e8e7a3
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Wed Jan 4 21:34:57 2017 +0200
+| 
+|     comments in, printing erased, no memory leaks.
+|  
+* commit 854c5e71e64e3b9e6c438b67d43d2799008b7472
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Wed Jan 4 21:32:39 2017 +0200
+| 
+|     No memory Leaks
+|     All comments Written
+|     All printings erased
+|     All Done!
+|  
+* commit 449cae128446d18e6cfa907a0b421fdb38e98717
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Wed Jan 4 20:56:58 2017 +0200
+| 
+|     0 Memory leak in both
+|     Next: remove printings
+|  
+* commit 0fc0f4ea4b19776e06bc5336c193375e738dbbd8
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Wed Jan 4 19:42:34 2017 +0200
+| 
+|     0 memory leaks in server!!
+|     Next: erase prints
+|  
+* commit b6ce05eb683cda76afc2ebb1d017056443a89095
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Wed Jan 4 02:38:14 2017 +0200
+| 
+|     restored the last working files from last night.
+|     works on u2. need to handle memory leaks.
+|  
+* commit e66bc93e24c59782964d683699eb1aa814c64f69
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Tue Jan 3 19:14:28 2017 +0200
+| 
+|     Added arguments to main and setIP to client
+|  
+* commit 5aa8a7fed4d71c54e72e5f07298a1e2141b5186d
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Tue Jan 3 18:29:56 2017 +0200
+| 
+|     Added loop to drive() of driver to check what type of taxi it has
+|     added deletes to destructor of Server (to delete grid in TaxiCenter)
+|     Added Enum for Client
+|  
+* commit 25ae4f1bfb9002ba20ff56d519234c50aa060cf6
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Tue Jan 3 18:17:08 2017 +0200
+| 
+|     fixed time feature
+|  
+* commit a0365815b3aa64e71ed7e70a49a151d172572b5e
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Tue Jan 3 17:11:22 2017 +0200
+| 
+|     Working - check memory leaks
+|  
+* commit de3d6a7757ad24b3002a69dc5d928aa71de98694
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Mon Jan 2 22:48:19 2017 +0200
+| 
+|     added delete for client objects
+|  
+* commit 20a1b65d55e65bb20fecb45802016c124b700728
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Mon Jan 2 22:20:20 2017 +0200
+| 
+|     all fixed, everything works!
+|  
+* commit 2a274f29704ff1402f6d90276e9d609141cc7471
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Mon Jan 2 19:39:53 2017 +0200
+| 
+|     Major changes made to assignment of trips and drivers
+|     currently working on fixing the loops in main of Server
+|  
+* commit 841ef4c6b7aeb07c62e29b8551393d7297bd2e93
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Sun Jan 1 00:25:04 2017 +0200
+| 
+|     abstract classes serialization fixed.
+|     tc.driver doesnt set the trip at server.
+|  
+* commit e5cf7fa2c55d63fea328fce129f8a139c0dbdd6f
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Fri Dec 30 15:33:15 2016 +0200
+| 
+|     Problems with setting trip of driver in DriverClient in function ReceiveTrip
+|     (Appears to be problem with getStart() and the fact that its a pointer - error received "pointer being freed was not allocated")
+|  
+* commit df7a13bce5f3295347b3ca046fd1b4cd8f6f0c21
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Thu Dec 29 23:42:24 2016 +0200
+| 
+|     server wait for updated trip from client fixed.
+|  
+* commit 52e5964431f96a456d0a5928553d2c5d268628a1
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Thu Dec 29 23:27:35 2016 +0200
+| 
+|     serializing and assigning taxi and trip to driver.
+|     need to fix the new trip after movement.
+|  
+* commit bf03658731c435d7df27c64505a990fa959a50d2
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Thu Dec 29 17:57:42 2016 +0200
+| 
+|     flow of program fixed
+|     problem with adding driver
+|  
+* commit e0550556a831e66657845f413f44b188cbc70b10
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Thu Dec 29 16:36:48 2016 +0200
+| 
+|     Serialization working
+|     start to fix main flow of program
+|  
+* commit db2a44b777ccce2ff7c479fff1decf2384add8a3
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Thu Dec 29 00:05:55 2016 +0200
+| 
+|     server and client with print messeges for debug
+|  
+* commit b8adf60204c0e6cdaf4a6d5c3f62b42e2693a011
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Wed Dec 28 23:55:33 2016 +0200
+| 
+|     intial commit of cpps
+|  
+* commit a3ca12c9811cb4b94393b396bcc6acda840792f6
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Wed Dec 28 20:56:33 2016 +0200
+| 
+|     working with makefile. need to debug.
+|  
+* commit 95d7197021cd16c5d6688dafdaad953d4490d0de
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Tue Dec 27 21:26:26 2016 +0200
+| 
+|     Added Clock feature
+|     Change in Trip distribution
+|  
+* commit 90ef8cbafa350fa791362d29f541bdbe163df521
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Tue Dec 27 20:56:11 2016 +0200
+| 
+|     getNextTrip and checkTripTimes added in TaxiCenter
+|  
+* commit 2b8659ec2ec34c0079bdc8af531ddf0498c4384a
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Tue Dec 27 20:14:32 2016 +0200
+| 
+|     added functions and time member to Trip
+|  
+* commit ef3072ce7faea175b82ed831105f239c091ebea4
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Tue Dec 27 18:42:53 2016 +0200
+| 
+|     adding clock class
+|  
+* commit da4b8aa70dc2c65a2c479967b6483672bfa9314a
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Tue Dec 27 18:12:14 2016 +0200
+| 
+|     Client additions and Driver method changes (ie, Drive now moves only one space)
+|  
+* commit 9269e69bf3533b63f84e19e3d4e9fd4ecfb3f4c9
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Tue Dec 27 18:10:03 2016 +0200
+| 
+|     additional functions to TaxiCenter
+|  
+* commit 1aba83c2b0a6d86b305875c29245786b64d73af0
+| Author: nirbs <nirchook@gmail.com>
+| Date:   Tue Dec 27 16:59:33 2016 +0200
+| 
+|     yolo
+|  
+* commit 6bba2cb1741386f1d387b5a01163ee2ceb0b4306
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Tue Dec 27 15:46:22 2016 +0200
+| 
+|     intial commit of cpps
+|  
+* commit 12cee93a155c0436411808effbffb5ddef5aba84
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Mon Dec 26 22:59:22 2016 +0200
+| 
+|     intial commit of cpps
+|  
+* commit b8f676cb8d3ca17e54aaca3da0ba304084b90da2
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Mon Dec 26 21:52:15 2016 +0200
+| 
+|     intial commit of cpps
+|  
+* commit 5f4f38029507af27043f28c1ae5cd757e28e233e
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Mon Dec 26 18:41:39 2016 +0200
+| 
+|     intial commit of cpps
+|  
+* commit 55174dd75aebc0a14e265ceb4cf15abbd4751b23
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Mon Dec 26 18:27:38 2016 +0200
+| 
+|     intial commit of cpps
+|  
+* commit d4d01b9a9587e9f4fe995e09a12382ee9b2bbe1c
+| Author: Tiki <lobel.tiki@gmail.com>
+| Date:   Mon Dec 26 18:25:06 2016 +0200
+| 
+|     intial commit of cpps
+|  
+* commit 45d4e4c4053a7907fa769499d98298a477ae6656
+  Author: Tiki <lobel.tiki@gmail.com>
+  Date:   Mon Dec 26 18:18:06 2016 +0200
+  
+      Initial commit
