@@ -35,7 +35,8 @@ Driver City::createDriver(string s) {
     for (int j=0; j<(s.size()/2)+1;j++){
         if (i!=2){
             std::istringstream (g)>>f;
-            if (isNumber(g)){
+            char*c= (char*)g[0];
+            if (isNumber(c)){
                 info[i]= f;
             } else{
                 isValid=false;
