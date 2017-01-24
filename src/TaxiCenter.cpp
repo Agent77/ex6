@@ -30,7 +30,7 @@ using namespace std;
 TaxiCenter::TaxiCenter(Graph* map1) {
     map = map1;
     started = false;
-    pathCalculator = ThreadPool(5);
+    pathCalculator = new ThreadPool(5);
 }
 //Checks BFS to find the closest driver to passenger source
 Driver TaxiCenter::findClosestDriver(Trip t) {
@@ -184,13 +184,15 @@ vector<Trip*> TaxiCenter::getTrips() {
 }
 
 pthread_t* TaxiCenter::getTripCalculator(int id) {
-    return pathCalculator.getThread(id);
+    return pathCalculator->getThread(id);
 
 }
 void TaxiCenter::addTrip(Trip* t) {
-    t->setMap(map);
-    pathCalculator.addTripToCalculate(t);
+    //t->setMap(map);
     trips.push_back(t);
+    if(t->getSizeOfPath() == 0) {
+        pathCalculator->addTripToCalculate(t);
+    }
 }
 
 void TaxiCenter::addDriver(int driverId, int age, char mStatus, int exp, int vehicleId) {
@@ -226,12 +228,12 @@ Taxi TaxiCenter::assignTaxi(int driverId){
  * searches through the trips to find which trip has the same
  * start time as the time that was sent to function
  */
-Trip TaxiCenter::getNextTrip(int currentTime) {
+Trip* TaxiCenter::getNextTrip(int currentTime) {
     vector<Trip*>::iterator trip = trips.begin();
     while (trip != trips.end() && (*(trip))->getTripTime() > currentTime) { //TODO does this stop loop
         trip++;
     }
-    Trip nextTrip = *(trip);
+    Trip* nextTrip = *(trip);
     //removes trip from possible trips to assign in future
     trips.erase(trip);
     return nextTrip;
@@ -273,12 +275,13 @@ void TaxiCenter::deleteDriver(int id) {
     drivers.erase(drivers.begin()+i);
 }
 
-void TaxiCenter::moveDriver(int id) {
+void TaxiCenter::moveDriver(int id, Point* p) {
     int i = 0;
     while(drivers[i].getDriverId() != id) {
         i++;
     }
-    Coordinate* c = drivers[i].getTrip()->getNextInPath();
-    drivers[i].getTrip()->updateStartPoint(c);
+    //Coordinate* c = drivers[i].getTrip()->getNextInPath();
+    drivers[i].getTrip()->updateStartPoint(p);
+    cout << "New Point in TC: "<< drivers[i].getTrip()->getStart().getX()<< ","<< drivers[i].getTrip()->getStart().getY()<< endl;
 
 }

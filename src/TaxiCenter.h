@@ -38,7 +38,7 @@ private:
     std::vector<Trip*> trips;
     Graph* map;
     bool started;
-    ThreadPool pathCalculator;
+    ThreadPool* pathCalculator;
 public:
     TaxiCenter(){};
     TaxiCenter(Graph* map1);
@@ -65,7 +65,7 @@ public:
     void updateDriverTrip(Trip newTrip, int place);
     void updateDriverTrip(Trip newTrip);
     Taxi assignTaxi(int driverId);
-    Trip getNextTrip (int currentTime);
+    Trip* getNextTrip (int currentTime);
     int checkTripTimes(int currentTime);
     Graph* getMap();
     void assignTrip(Trip t);
@@ -74,7 +74,7 @@ public:
     static void* move(void* d);
     void calculatePath(pthread_t* pathCreator, Driver* d);
     bool hasDriver(int id);
-    void moveDriver(int id);
+    void moveDriver(int id, Point* p);
     pthread_t* getTripCalculator(int id);
 };
 

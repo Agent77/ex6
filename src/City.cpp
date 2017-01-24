@@ -2,6 +2,7 @@
 #include "City.h"
 
 
+
 City::City() {
     gridSizeX=0;
     gridSizeY=0;
@@ -85,9 +86,9 @@ Trip* City::createTrip(string s) {
             std::getline(sep, g, ',');
             std::istringstream(g) >> f;
         }
-        Trip trip = Trip(value[0], value[1], value[2], value[3],
+        Trip* trip = new Trip(value[0], value[1], value[2], value[3],
                          value[4], value[5], value[6], value[7]);
-        return &trip;
+        return trip;
     } else {
         return NULL;
     }
@@ -97,8 +98,17 @@ Trip* City::createTrip(string s) {
  * The function parses a given string and creates new coordinate
  */
 Coordinate* City::createCoordinate(string s) { /*TODO fix*/
-    char* c= (char*) s[0];
-    if (isNumber(c)) {
+    int size=s.size()/2 +1;
+    if(size!=2){
+        return NULL;
+    }
+    /*char c1=s[0];
+    char c2=s[2];
+    char* c3=&c1;
+    char* c4=&c2;
+    string s1=string(&c1);
+    string s2=string(&c2);*/
+    if (isNumber(s)) {
         int x = (int) s[0] - 48;
         int y = (int) s[2] - 48;
         if(x<0 || y<0) {
@@ -114,16 +124,16 @@ Coordinate* City::createCoordinate(string s) { /*TODO fix*/
  * The function parses a given string and creates new graph
  */
 Graph* City::createGraph(string s, string s1) {
-    char* c1=(char*)s[0];
-    char* c2=(char*)s1[0];
-    if (!(isNumber(c1)&&isNumber(c2))) {
-        return NULL;
-    }
-    if (gridSizeX <= 0 || gridSizeY <= 0) {
+    /*char* c1=(char*)s;
+    char* c2=(char*)s1[0];*/
+    if (!(isNumber(s)&&isNumber(s1))) {
         return NULL;
     }
     gridSizeX = stoi(s);
     gridSizeY = stoi(s1);
+    if (gridSizeX <= 0 || gridSizeY <= 0) {
+        return NULL;
+    }
     Graph *graphPointer = new Grid(gridSizeX, gridSizeY);
     return graphPointer;
 }
@@ -164,10 +174,10 @@ bool City::isValidStatus(char c){
 }
 
 
-bool City::isNumber(char* s) {
-    string s1=string(s);
-    for (int i=0; i<s1.size(); i++){
-        if (!isdigit(s1[i])){
+bool City::isNumber(string s) {
+    //string s1=string(s);
+    for (int i=0; i<s.size(); i++){
+        if (!isdigit(s[i]) && !s[i]==','){
             return false;
         }
     }
@@ -175,57 +185,79 @@ bool City::isNumber(char* s) {
 }
 
 bool City::validTaxi(string s) {
-    char* c1= (char*)s[0];
-    char* c2= (char*)s[2];
+    int counter=0;
+    int index=0;
+    char s1[3];
+    char s2[3];
+    int i=0;
+    for(; i<s.size()/2+1; i++){
+        if (s[i]!=',') {
+            if (counter==0) {
+                s1[index] = s[i];
+            } else {
+                s2[index]=s[i];
+            }
+            index++;
+        } else {
+            counter++;
+            index=0;
+        }
+        if (counter==2){
+            i++;
+            break;
+        }
+    }
+    string s3=string(s1);
+    string s4= string(s2);
     char c3= (char)s[4];
     char c4= (char)s[6];
-    int counter=0;
+    int counter2=0;
     int size= s.size()/2+1;
     if (size!=4){
         return false;
     }
-    if (isNumber(c1)&&isNumber((c2))){
-        int firstInt=stoi(c1);
-        int secondInt=stoi(c2);
+    if (isNumber(s3)&&isNumber((s4))){
+        int firstInt=stoi(s3);
+        int secondInt=stoi(s4);
         if (firstInt>=0 && (secondInt==1|| secondInt==2)) {
             switch (c3) {
                 case 'H':
-                    counter++;
+                    counter2++;
                     break;
                 case 's':
-                    counter++;
+                    counter2++;
                     break;
                 case 'T':
-                    counter++;
+                    counter2++;
                     break;
                 case 'F':
-                    counter++;
+                    counter2++;
                     break;
                 default:
                     break;
             }
             switch(c4){
                 case 'R':
-                    counter++;
+                    counter2++;
                     break;
                 case 'B':
-                    counter++;
+                    counter2++;
                     break;
                 case 'G':
-                    counter++;
+                    counter2++;
                     break;
                 case 'P':
-                    counter++;
+                    counter2++;
                     break;
                 case 'W':
-                    counter++;
+                    counter2++;
                     break;
                 default:
                     break;
             }
         }
     }
-    if (counter==2){
+    if (counter2==2){
         return true;
     }
     return false;

@@ -11,7 +11,7 @@ using namespace std;
 
 
 BFS::BFS(Graph* g) {
-    this->graph = g;
+    graph = g;
 }
 /*
  * Prints the path from Source to Destination by
@@ -103,10 +103,11 @@ vector<Coordinate*> BFS::getFullPath(Coordinate* sLoc, Coordinate* dLoc){
     vector<Coordinate*> path;
 
     vector<Coordinate*> tempPath;
-    this->source =  graph->getNode(sLoc);
-    this->source->visit();
+    source =  graph->getNode(sLoc);
     this->destination = graph->getNode(dLoc);
-    this->getPath();
+    this->source->visit();
+
+    getPath();
     Node *node= destination;
     Node* previousNode;
     while (node != source && node->getPrev()!= NULL){

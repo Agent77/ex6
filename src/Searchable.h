@@ -32,11 +32,9 @@ protected:
     Graph* graph;
     Node* destination;
 public:
-    Searchable() {};
+    Searchable(){};
     ~Searchable() {};
-    Searchable(Graph* g) {
-        graph = g;
-    };
+    Searchable(Graph* g);
     /***********************************************************************
 	* function name: getPath											   *
 	* The Input: none		                                               *

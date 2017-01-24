@@ -26,6 +26,7 @@ Trip::Trip(int tripId, int xStart, int yStart, int xEnd, int yEnd, int numOfPass
     this->numOfPassengers=numOfPassengers;
     this->tariff = tariff;
     this->startTime = time;
+    this->calc = false;
 }
 
 /*
@@ -38,6 +39,7 @@ Trip::Trip(Trip* t) {
    this-> yStart = t->getStartY();
    this->yEnd = t->getEndY();
     this->startTime = t->getTripTime();
+    this->calc = false;
 }
 
 void calculateTrip() {
@@ -92,6 +94,14 @@ void Trip::addMeters() {
     metersPassed =+1;
 }
 
+bool Trip::pathCalculated() {
+    return calc;
+}
+
+void Trip::isCalculated(int i) {
+    calc = true;
+}
+
 /*
 * each time the driver moves, the start point of its trip is updated.
 */
@@ -109,6 +119,7 @@ void Trip::setPath(vector<Coordinate *> p) {
 }
 
 void Trip::setMap(Graph* g) {
+    cout << "visited"<<endl;
     gps = g;
 }
 

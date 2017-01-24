@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 
     // creates tcp for connection
     tcp = new Tcp(1, portNum);
-
+    pthread_mutex_init(&lockUpdate, NULL);
     //creates all the threads
     pthread_t mainRun;
     pthread_create(&mainRun, NULL, acceptClients, (void*)1);
@@ -135,6 +135,7 @@ static void* acceptClients(void* dummy) {
                     cout<<"-1"<<endl;
                     break;
                 }
+                t->setMap(tc.getMap());
                 tc.addTrip(t);
                 break;
             }
@@ -323,7 +324,7 @@ void Server::initialize() {
 void Server::SendTripToClient() {
     std::string serializedTrip;
     int counter = 0;
-    Trip trip;
+    Trip *trip;
     Trip *trip1;
     //pthread_mutex_lock(&lockUpdate);
     //Finds how many trips start at the current time
@@ -334,9 +335,11 @@ void Server::SendTripToClient() {
 
         //Check if this driver is next
         trip = tc.getNextTrip(timeClock.getTime());
-
+        cout << "Socket: "<< clientSocket << endl;
+        cout << "Driver id: "<< myDriver->getDriverId()<< endl;
+        cout << "Wants to take trip: "<< trip->getId();
         int i = 0;
-        Point p=trip.getStart();
+        Point p = trip->getStart();
         while(!waitingDrivers[i].getTrip()->getEnd().equal(&p)){
             i++;
         }
@@ -344,12 +347,12 @@ void Server::SendTripToClient() {
         if (myDriver->getDriverId()==waitingDrivers[i].getDriverId()) {
 
             waitingDrivers.erase(waitingDrivers.begin()+i);
-            myDriver->setTrip(&trip);
+            myDriver->setTrip(trip);
             Graph *tempMap = tc.getMap();
             myDriver->setMap(tempMap);
-            tc.calculatePath(&calc, myDriver);
+            //tc.calculatePath(&calc, myDriver);
 
-             trip1 = &trip;
+             trip1 = trip;
             //SERIALIZATION OF TRIP
             boost::iostreams::back_insert_device<std::string> inserter(serializedTrip);
             boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(
@@ -363,7 +366,9 @@ void Server::SendTripToClient() {
             verifyResponse();
         }else {
             //adds trip back if it didnt take it
-            tc.addTrip(trip1);
+            //Trip* addBackTrip = new Trip(trip1);
+            tc.addTrip(trip);
+
         }
 
     }
@@ -403,6 +408,8 @@ void Server::receiveDriver() {
     ia >> receivedDriver;
     //adds received driver to temp vector of drivers, until it is assigned a trip
     myDriver = receivedDriver;
+    //Trip* t = new Trip(0,0,0,0,0,0,0,0);
+    //myDriver->setTrip(t);
     waitingDrivers.push_back(*myDriver);
 }
 
@@ -445,12 +452,17 @@ void Server::sendNextLocation() {
         if (myDriver->getTrip()->getTripTime() < timeClock.getTime()) {
             int id = myDriver->getTrip()->getThreadId();
             pthread_t* calc = tc.getTripCalculator(id);
-            pthread_join(*calc, NULL);
+            //pthread_join(*calc, NULL);
+            while(!myDriver->getTrip()->pathCalculated()) {
+                cout<< "waiting for calculation to finish..."<<endl;
+            }
             if (!tc.hasDriver(myDriver->getDriverId())) {
                 tc.addDriver(*myDriver);
             }
             Point *ptrPoint = myDriver->getTrip()->getNextInPath();
-            tc.moveDriver(myDriver->getDriverId());
+            cout << "Socket: "<<clientSocket<<endl;
+            cout << "Wants to send point: "<<*ptrPoint<<endl;
+            tc.moveDriver(myDriver->getDriverId(), ptrPoint);
             myDriver->getTrip()->updateStartPoint(*ptrPoint);
             std::string nextLocation;
             boost::iostreams::back_insert_device<std::string> inserter(nextLocation);

@@ -137,6 +137,7 @@ void DriverClient::receiveNextPoint() {
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s3(device3);
     boost::archive::binary_iarchive ia(s3);
     ia >> p;
+    cout << "("<<p->getX()<<","<< p->getY()<<")"<<endl;
     Trip* tripP = driver.getTrip();
     tripP->updateStartPoint(p);
     driver.getTrip()->updateStartPoint(p);

@@ -38,6 +38,7 @@ private:
     int startTime;
     int threadId;
     Graph* gps;
+    bool calc;
     vector<Coordinate*> path;
     pthread_t pathCalc;
 //sdf
@@ -66,6 +67,8 @@ public:
     void setPath(vector<Coordinate*> p);
     Point* getNextInPath();
     int getSizeOfPath();
+    bool pathCalculated();
+    void isCalculated(int i);
 };
 
 

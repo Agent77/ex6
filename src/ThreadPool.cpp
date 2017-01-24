@@ -1,5 +1,6 @@
 
 #include "ThreadPool.h"
+queue<Trip *> tripsToCalculate;
 #include <unistd.h>
 #include <iostream>
 static void *startThread(void *arg) {
@@ -11,6 +12,8 @@ static void *startThread(void *arg) {
 
 void ThreadPool::startCalculations(int sentId) {
     int id = sentId;
+    sleep(1);
+   // cout << "My Thread Id:" <<id<<endl;
     while (!stop) {
         pthread_mutex_lock(&lock);
         if (!tripsToCalculate.empty()) {
@@ -19,6 +22,8 @@ void ThreadPool::startCalculations(int sentId) {
             t->setThreadId(id);
             pthread_mutex_unlock(&lock);
             t->calculatePath();
+            cout << "Calculated"<<endl;
+            t->isCalculated(1);
         }
         else {
             pthread_mutex_unlock(&lock);
@@ -38,6 +43,7 @@ ThreadPool::ThreadPool(int threads_num) : threads_num(threads_num), stop(false) 
 
     pthread_mutex_init(&lock, NULL);
     for (int i = 0; i < threads_num; i++) {
+        sleep(1);
         currentId = i;
         pthread_create(calculatorThreads + i, NULL, startThread, this);
     }

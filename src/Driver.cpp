@@ -12,7 +12,7 @@ Driver::Driver() {
     this->vehicleId=0;
     this->exp=0;
     this->hasTripAlready = false;
-    //this->myTrip = NULL;
+    this->myTrip = new Trip(0,0,0,0,0,0,0,0);
 }
 
 
@@ -23,6 +23,8 @@ Driver::Driver(int driverId, int age, char mStatus, int exp, int vehicleId) {
     this->exp=exp;
     this->vehicleId=vehicleId;
     this->hasTripAlready = false;
+    this->myTrip = new Trip(0,0,0,0,0,0,0,0);
+
     //this->myTrip = NULL;
 
 
@@ -91,7 +93,6 @@ void Driver::setTaxi(Taxi t) {
 void Driver::setTrip(Trip* t) {
     myTrip =  t;
     hasTripAlready = true;
-
 }
 
 /*
