@@ -130,13 +130,21 @@ static void* acceptClients(void* dummy) {
             }
             case 2: {
                 cin >> input;
-                Trip t = city.createTrip(input);
-                tc.addTrip(&t);
+                Trip* t = city.createTrip(input);
+                if (t==NULL){
+                    cout<<"-1"<<endl;
+                    break;
+                }
+                tc.addTrip(t);
                 break;
             }
             case 3: {
                 cin >> s;
                 Taxi t = city.createTaxi(s);
+                if(t.getId()==-1){
+                    cout<<"-1"<<endl;
+                    break;
+                }
                 tc.addTaxi(t);
                 vehicles.push_back(t);
                 break;
@@ -268,25 +276,38 @@ void Server::initialize() {
     string size1;
     string size2;
     int obstacleCount;
+    Graph *grid;
+    bool isValid= true;
 
-    //To be used later as graph size
-    cin >> size1;
-    cin >> size2;
-    Graph *grid = city.createGraph(size1, size2);
-
-
-    //Checks for obstacles
-    cin >> obstacles;
-    std::istringstream(obstacles) >> obstacleCount;
-    //Adds obstacles at given points in grid
-    if (obstacleCount != 0) {
-        string obstacle;
-        for (int count = 0; count < obstacleCount; count++) {
-            cin >> obstacle;
-            Coordinate* c = city.createCoordinate(obstacle);
-            grid->addObstacle(c);
+    do {
+        //To be used later as graph size
+        cin >> size1;
+        cin >> size2;
+        grid = city.createGraph(size1, size2);
+        if (grid == NULL) {
+            cout << "-1" << endl;
+            isValid=false;
         }
-    }
+
+        //Checks for obstacles
+        cin >> obstacles;
+        std::istringstream(obstacles) >> obstacleCount;
+        //Adds obstacles at given points in grid
+        if (obstacleCount != 0) {
+            string obstacle;
+            for (int count = 0; count < obstacleCount; count++) {
+                cin >> obstacle;
+                Coordinate *c = city.createCoordinate(obstacle);
+                if (c == NULL) {
+                    cout << "-1" << endl;
+                    isValid=false;
+
+                } else {
+                    grid->addObstacle(c);
+                }
+            }
+        }
+    }while (!isValid);
     //adds grid to the taxi center
     tc = TaxiCenter(grid);
     g = grid;

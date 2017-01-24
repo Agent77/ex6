@@ -24,16 +24,22 @@ class City {
 
 private:
     //TaxiCenter tc;
+    int gridSizeX;
+    int gridSizeY;
 public:
     City();
     void CallTaxiCenter(Passenger p);
     Passenger checkForPassengerCalls();
     TaxiCenter getTaxiCenter() {};
     Driver createDriver(string s);
-    Trip createTrip(string s);
+    Trip* createTrip(string s);
     Graph* createGraph(string s, string s1);
     Taxi createTaxi(string s);
     Coordinate* createCoordinate(string obstacleLocation);
+    bool isValidStatus(char c);
+    bool isNumber(char* s);
+    bool validTaxi(string s);
+    bool validTrip(string s);
 };
 
 

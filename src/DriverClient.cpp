@@ -29,14 +29,15 @@ int main(int argc, char* argv[]) {
     string d;
     cin >> d;
     Driver dr = c.createDriver(d);
-    Driver* driver = &dr;
-
-    DriverClient client = DriverClient();
-    string ipStr= argv[1];
-    string portStr= argv[2];
-    client.openSocket(driver, ipStr, portStr);
-    client.receiveVehicle();
-    client.receiveCommand();
+    if(dr.getDriverId()!=-1) {
+        Driver *driver = &dr;
+        DriverClient client = DriverClient();
+        string ipStr = argv[1];
+        string portStr = argv[2];
+        client.openSocket(driver, ipStr, portStr);
+        client.receiveVehicle();
+        client.receiveCommand();
+    }
     return 0;
 }
 
