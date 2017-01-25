@@ -137,7 +137,6 @@ static void* acceptClients(void* dummy) {
                     break;
                 }
                 tc.requestDriverLocation(stoi(id));
-
                 break;
             }
             case 9:
@@ -234,17 +233,20 @@ Server::Server() {
 ****************************************************************************/
 void Server::initialize() {
     string obstacles;
-    string size1;
-    string size2;
+    string size;
+    /*string size1;
+    string size2;*/
     int obstacleCount;
     Graph *grid;
     bool isValid= true;
 
     do {
         //To be used later as graph size
-        cin >> size1;
-        cin >> size2;
-        grid = city.createGraph(size1, size2);
+        /*cin >> size1;
+        cin >> size2;*/
+        string size;
+        getline(cin,size);
+        grid = city.createGraph(size);
         if (grid == NULL) {
             cout << "-1" << endl;
             isValid=false;

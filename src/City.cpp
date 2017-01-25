@@ -97,14 +97,34 @@ Coordinate* City::createCoordinate(string s) {
 /*
  * The function parses a given string and creates new graph
  */
-Graph* City::createGraph(string s, string s1) {
+Graph* City::createGraph(string s) {
     /*char* c1=(char*)s;
     char* c2=(char*)s1[0];*/
-    if (!(isNumber(s)&&isNumber(s1))) {
-        return NULL;
+    char c1[3];
+    char c2[3];
+    int counter =0;
+    int index=0;
+    for (int i=0; i<s.size(); i++){
+        if(isdigit(s[i])){
+            switch (counter) {
+                case 0:
+                    c1[index] = s[i];
+                    break;
+                case 1:
+                    c2[index] = s[i];
+                    break;
+            }
+        } else if (s[i]==' ' && counter==0){
+            index=0;
+            counter++;
+        } else{
+            return NULL;
+        }
     }
-    gridSizeX = stoi(s);
-    gridSizeY = stoi(s1);
+    string s1= string (c1);
+    string s2= string (c2);
+    gridSizeX = stoi(s1);
+    gridSizeY = stoi(s2);
     if (gridSizeX <= 0 || gridSizeY <= 0) {
         return NULL;
     }
@@ -116,7 +136,7 @@ Graph* City::createGraph(string s, string s1) {
  * The function parses a given string and creates new taxi
  */
 Taxi City::createTaxi(string s) {
-    int id = (int)s[0] - 48;
+    int id = (int)s[0] - 48; //todo change//
     int type = (int)s[2] - 48;
     if (validTaxi(s)) {
         if (type == 1) {

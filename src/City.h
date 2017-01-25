@@ -33,7 +33,7 @@ public:
    // TaxiCenter getTaxiCenter() {};
     Driver createDriver(string s);
     Trip* createTrip(string s);
-    Graph* createGraph(string s, string s1);
+    Graph* createGraph(string s);
     Taxi createTaxi(string s);
     Coordinate* createCoordinate(string obstacleLocation);
     bool isValidStatus(char c);
