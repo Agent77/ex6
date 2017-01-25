@@ -22,8 +22,9 @@ void ThreadPool::startCalculations(int sentId) {
             pthread_mutex_unlock(&lock);
             t->calculatePath();
             //if(t->hasValidPath()) {
-                cout << "Calculated"<<endl;
+                cout << "Calculated" << endl;
                 t->isCalculated(1);
+           // }
         }
         else {
             pthread_mutex_unlock(&lock);

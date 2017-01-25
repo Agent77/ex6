@@ -143,6 +143,11 @@ int Trip::getSizeOfPath() {
     return path.size();
 }
 
+/*
+ * Calculates the entire path from the start to the end
+ * of the trip and saves it in a vector, so we can take the next
+ * point each time
+ */
 void Trip::calculatePath() {
     int xSize= gps->getSizeX();
     int ySize = gps->getSizeY();
@@ -158,7 +163,7 @@ void Trip::calculatePath() {
     y = this->getEndY();
     end = new Point(x, y);
     path = bfs.getFullPath(start, end);
-    if(path == NULL) {
+    if(path.front()->getX() == -1) {
         //cout << "SIZE = 0 calc path in Trip"<<endl;
         validPath = false;
     } else {

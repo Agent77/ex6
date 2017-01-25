@@ -201,7 +201,7 @@ bool TaxiCenter::addTrip(Trip* t) {
         trips.push_back(t);
         return true;
     } else {
-        cout << "-1"<<endl;
+        cout << "tc says -1"<<endl;
         return false;
     }
 }

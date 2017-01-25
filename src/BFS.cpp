@@ -59,6 +59,7 @@ bool BFS::getPath() {
     newSource = source;
     do {
         vector<Node*> checkValid = visitNeighbors(newSource);
+        /*TODO check if a neighbor is dstination*/
         if(checkValid.size() == 0) {
             //cout << "SIZE = 0 returned from visit neighbors"<<endl;
             return false;
@@ -117,7 +118,7 @@ vector<Coordinate*> BFS::getFullPath(Coordinate* sLoc, Coordinate* dLoc){
 
     bool valid = getPath();
     if(!valid) {
-        return NULL;
+        path.push_back(new Point(-1,-1));
     }
     Node *node= destination;
     Node* previousNode;
