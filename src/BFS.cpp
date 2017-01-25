@@ -18,7 +18,7 @@ BFS::BFS(Graph* g) {
  * working backwards, from destination, and asking for the
  * node's 'previous' until arriving at the source.
  */
-void BFS::PrintPath( Node* source, Node* destination) {
+void BFS::PrintPath(Node* source, Node* destination) {
     Coordinate *path[100] = {};
     int count = 0;
     Node *currentNode = destination;

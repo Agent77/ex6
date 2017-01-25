@@ -292,6 +292,9 @@ void Server::initialize() {
 
         //Checks for obstacles
         cin >> obstacles;
+        if (!city.isNumber(obstacles)){
+            isValid=false;
+        }
         std::istringstream(obstacles) >> obstacleCount;
         //Adds obstacles at given points in grid
         if (obstacleCount != 0) {
@@ -302,7 +305,6 @@ void Server::initialize() {
                 if (c == NULL) {
                     cout << "-1" << endl;
                     isValid=false;
-
                 } else {
                     grid->addObstacle(c);
                 }

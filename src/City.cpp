@@ -186,11 +186,12 @@ bool City::isNumber(string s) {
 
 bool City::validTaxi(string s) {
     int counter=0;
+    int size= s.size();
     int index=0;
     char s1[3];
     char s2[3];
     int i=0;
-    for(; i<s.size()/2+1; i++){
+    for(; i<size; i++){
         if (s[i]!=',') {
             if (counter==0) {
                 s1[index] = s[i];
@@ -212,8 +213,8 @@ bool City::validTaxi(string s) {
     char c3= (char)s[4];
     char c4= (char)s[6];
     int counter2=0;
-    int size= s.size()/2+1;
-    if (size!=4){
+    int size1= s.size()/2+1;
+    if (size1!=4){
         return false;
     }
     if (isNumber(s3)&&isNumber((s4))){
@@ -224,7 +225,7 @@ bool City::validTaxi(string s) {
                 case 'H':
                     counter2++;
                     break;
-                case 's':
+                case 'S':
                     counter2++;
                     break;
                 case 'T':
@@ -264,25 +265,88 @@ bool City::validTaxi(string s) {
 }
 
 bool City::validTrip(string s) {
-    int size=s.size()/2+1;
-    if (size!=8){
+    int size=s.size();
+    int i=0;
+    int index=0;
+    int id;
+    char sId[3];
+    int startX;
+    char sStartX[3];
+    int startY;
+    char sStartY[3];
+    int endX;
+    char sEndX[3];
+    int endY;
+    char sEndY[3];
+    int pass;
+    char sPass[3];
+    double tariff;
+    char sTariff[3];
+    int time;
+    char sTime[3];
+    int counter=0;
+    char c[3];
+   /* if (size!=8){
         return false;
     }
-    for (int i=0; i<size; i+=2){
+    for (int j=0; j<size; j+=2){
         char* c= (char*)s[i];
         if (!isNumber(c)){
             return false;
         }
+    }*/
+    while (i<size) {
+        //while (s[i] != ',') {
+        if (s[i] != ','){
+            if (!isdigit(s[i])) {
+                return false;
+            }
+            switch (counter) {
+                case 0:
+                    sId[index] = s[i];
+                    break;
+                case 1:
+                    sStartX[index] = s[i];
+                    break;
+                case 2:
+                    sStartY[index] = s[i];
+                    break;
+                case 3:
+                    sEndX[index] = s[i];
+                    break;
+                case 4:
+                    sEndY[index] = s[i];
+                    break;
+                case 5:
+                    sPass[index] = s[i];
+                    break;
+                case 6:
+                    sTariff[index]=s[i];
+                    break;
+                case 7:
+                    sTime[index]=s[i];
+                    break;
+                default:
+                    break;
+
+            }
+            i++;
+            index++;
+        }else {
+            i++;
+            counter++;
+            index=0;
+        }
     }
-    int id=(int)s[0]-48;
-    int startX=(int)s[2]-48;
-    int startY=(int)s[4]-48;
-    int endX=(int)s[6]-48;
-    int endY=(int)s[8]-48;
-    int pass=(int)s[10]-48;
-    double tariff=(int)s[12]-48;
-    int time=(int)s[14]-48;
-    if (id<0 || pass<0 || tariff<0 || time<=0){
+    id= stoi(sId);
+    startX= stoi(sStartX);
+    startY= stoi(sStartY);
+    endX= stoi(sEndX);
+    endY= stoi(sEndY);
+    pass=stoi(sPass);
+    tariff= stoi(sTariff);
+    time= stoi(sTime);
+    if (counter!=7 || id<0 || pass<0 || tariff<0 || time<=0){
         return false;
     }
     if (startX<0 && startX>gridSizeX || startY<0 && startY>gridSizeY || endX<0 && endX>gridSizeX
