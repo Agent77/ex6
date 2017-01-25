@@ -170,7 +170,7 @@ bool City::validTaxi(string s) {
             if (counter==0) {
                 s1[index] = s[i];
             } else {
-                s2[index]=s[i];
+                s2[index] = s[i];
             }
             index++;
         } else {
@@ -213,7 +213,6 @@ bool City::validTaxi(string s) {
             }
             switch(c4){
                 case 'R':
-                    counter2++;
                     counter2++;
                     break;
                 case 'B':
