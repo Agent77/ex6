@@ -41,7 +41,6 @@ Driver City::createDriver(string s) {
     return d;
 }
 
-
 /*
  * The function parses a given string and creates new trip
  */
@@ -72,7 +71,7 @@ Trip* City::createTrip(string s) {
 /*
  * The function parses a given string and creates new coordinate
  */
-Coordinate* City::createCoordinate(string s) { /*TODO fix*/
+Coordinate* City::createCoordinate(string s) {
     int size=s.size()/2 +1;
     if(size!=2){
         return NULL;

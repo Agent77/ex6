@@ -158,7 +158,7 @@ void Trip::calculatePath() {
     y = this->getEndY();
     end = new Point(x, y);
     path = bfs.getFullPath(start, end);
-    if(path.size() == 0) {
+    if(path == NULL) {
         //cout << "SIZE = 0 calc path in Trip"<<endl;
         validPath = false;
     } else {

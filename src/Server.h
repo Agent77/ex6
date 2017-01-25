@@ -64,13 +64,6 @@ public:
 	***********************************************************************/
     void SendTripToClient();
     /***********************************************************************
-	* function name: createClients										   *
-	* The Input: string of port number													   *
-	* The output: none										               *
-	* The Function operation: opens a socket for the client to reach	   *
-	***********************************************************************/
-   // int createClients(string port);
-    /***********************************************************************
 	* function name: assignVehicleToClient												   *
 	* The Input: none													   *
 	* The output: none										               *
@@ -116,18 +109,12 @@ public:
 	* The output: none										               *
 	* The Function operation: notifies all clients to close themselves     *
 	***********************************************************************/
-    void closeSockets();
+    //void closeSockets();
     void setSocket(int socketNum) {
     clientSocket = socketNum;
     };
     int socketNum() {
     return clientSocket;}
-    //void assistClient(clientDetails c);
-    //static void* assist(void* s);
-    //void assignTrip(Trip t);
-    /*
-     * receives a response from the client
-     */
     void verifyResponse();
     void setRank(int rank);
 

@@ -117,7 +117,7 @@ vector<Coordinate*> BFS::getFullPath(Coordinate* sLoc, Coordinate* dLoc){
 
     bool valid = getPath();
     if(!valid) {
-        return path;
+        return NULL;
     }
     Node *node= destination;
     Node* previousNode;
