@@ -4,6 +4,8 @@
 * flow of input/out, and serialization                      *
 ************************************************************/
 #include "Server.h"
+//#include <boost/log/trivial.hpp>
+//#include "easylogging++.h"
 //#include <boost/lexical_cast.hpp>
 //#include <boost/tokenizer.hpp>
 #include <iostream>
@@ -20,7 +22,6 @@
 #include <boost/iostreams/stream.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
-
 using namespace std;
 static void* assist(void* s);
 static void* acceptClients(void* v);
@@ -51,6 +52,7 @@ void* createMainSocket(string port);
 int main(int argc, char* argv[]) {
     Server s = Server();
     s.initialize();
+   // BOOST_LOG_TRIVIAL(debug)<<"trying debug";
 
     int portNum = stoi(argv[1]);
 
@@ -136,7 +138,7 @@ static void* acceptClients(void* dummy) {
                     break;
                 }
                 t->setMap(tc.getMap());
-                tc.addTrip(t);
+                bool validTrip = tc.addTrip(t);
                 break;
             }
             case 3: {
@@ -151,9 +153,18 @@ static void* acceptClients(void* dummy) {
                 break;
             }
             case 4: {
-                int id;
+                string id;
                 cin >> id;
-                tc.requestDriverLocation(id);
+                if(!city.isNumber(id)) {
+                    cout << "-1"<<endl;
+                    break;
+                }
+                if(!tc.hasDriver(stoi(id))) {
+                    cout << "-1"<<endl;
+                    break;
+                }
+                tc.requestDriverLocation(stoi(id));
+
                 break;
             }
             case 9:
@@ -456,12 +467,14 @@ void Server::sendNextLocation() {
             pthread_t* calc = tc.getTripCalculator(id);
             //pthread_join(*calc, NULL);
             while(!myDriver->getTrip()->pathCalculated()) {
-                cout<< "waiting for calculation to finish..."<<endl;
+                //cout<< "waiting for calculation to finish..."<<endl;
             }
+            //cout << "Calculated?"<<myDriver->getTrip()->pathCalculated()<<endl;
             if (!tc.hasDriver(myDriver->getDriverId())) {
                 tc.addDriver(*myDriver);
             }
             Point *ptrPoint = myDriver->getTrip()->getNextInPath();
+            sleep(1);
             cout << "Socket: "<<clientSocket<<endl;
             cout << "Wants to send point: "<<*ptrPoint<<endl;
             tc.moveDriver(myDriver->getDriverId(), ptrPoint);
@@ -473,10 +486,17 @@ void Server::sendNextLocation() {
             oa << ptrPoint;
             s1.flush();
             //notifies clients they are about to receive a new location
+            cout << "before send Command"<<endl;
+            //BOOST_HAS_LOG1P() << "trying log info"<<endl;
             Server::sendCommand(9);
+            cout << "before send data"<<endl;
+
             tcp->sendData(nextLocation, clientSocket);
+            cout << "after send data"<<endl;
             //pthread_mutex_unlock(&lockSend);
             verifyResponse();
+            cout << "after verify response"<<endl;
+
             delete ptrPoint;
             //need to assign driver a new trip
             if (myDriver->arrived()) {

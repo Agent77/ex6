@@ -41,7 +41,7 @@ public:
 	* The output: none                                  		           *
 	* The Function operation: function to get entire path from bfs		   *
 	***********************************************************************/
-    virtual void getPath() = 0;
+    virtual bool getPath() = 0;
     virtual void PrintPath(Node* s, Node* d) = 0;
     /***********************************************************************
 	* function name: visitNeighbors										   *

@@ -187,11 +187,22 @@ pthread_t* TaxiCenter::getTripCalculator(int id) {
     return pathCalculator->getThread(id);
 
 }
-void TaxiCenter::addTrip(Trip* t) {
+bool TaxiCenter::addTrip(Trip* t) {
     //t->setMap(map);
-    trips.push_back(t);
+
     if(t->getSizeOfPath() == 0) {
         pathCalculator->addTripToCalculate(t);
+    }
+    while(!t->pathCalculated()) {
+
+    }
+    if(t->hasValidPath()) {
+        cout << "VALID PATH"<<endl;
+        trips.push_back(t);
+        return true;
+    } else {
+        cout << "-1"<<endl;
+        return false;
     }
 }
 

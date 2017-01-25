@@ -27,6 +27,7 @@ Trip::Trip(int tripId, int xStart, int yStart, int xEnd, int yEnd, int numOfPass
     this->tariff = tariff;
     this->startTime = time;
     this->calc = false;
+    validPath = true;
 }
 
 /*
@@ -36,10 +37,11 @@ Trip::Trip(Trip* t) {
   this->tripId = t->getId();
   this-> xStart = t->getStartX();
   this-> xEnd = t->getEndX();
-   this-> yStart = t->getStartY();
+    this-> yStart = t->getStartY();
    this->yEnd = t->getEndY();
     this->startTime = t->getTripTime();
     this->calc = false;
+    validPath = true;
 }
 
 void calculateTrip() {
@@ -119,7 +121,7 @@ void Trip::setPath(vector<Coordinate *> p) {
 }
 
 void Trip::setMap(Graph* g) {
-    cout << "visited"<<endl;
+    //cout << "visited"<<endl;
     gps = g;
 }
 
@@ -144,7 +146,7 @@ int Trip::getSizeOfPath() {
 void Trip::calculatePath() {
     int xSize= gps->getSizeX();
     int ySize = gps->getSizeY();
-    Graph* copyGraph = new Grid(xSize, ySize);
+    Graph* copyGraph = new Grid(gps);
     BFS bfs =  BFS(copyGraph);
     vector<Coordinate*> path;
     Coordinate *start;
@@ -156,7 +158,12 @@ void Trip::calculatePath() {
     y = this->getEndY();
     end = new Point(x, y);
     path = bfs.getFullPath(start, end);
-    this->setPath(path);
+    if(path.size() == 0) {
+        //cout << "SIZE = 0 calc path in Trip"<<endl;
+        validPath = false;
+    } else {
+        this->setPath(path);
+    }
     delete copyGraph;
     delete start;
     delete end;

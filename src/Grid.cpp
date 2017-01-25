@@ -30,6 +30,9 @@ Grid::Grid(int xSize, int ySize) {
             Coordinate *c= new Point(i,j);
             Node* n;
             n = new Node(g->getNode(c));
+            if(g->getNode(c)->isObstacle()) {
+                n->makeObstacle();
+            }
             delete c;
             this->arrayOfPtrsToNodes[i][j] = n;
         }
@@ -56,6 +59,7 @@ Node* Grid::getLocationOfPrev(Node* n) {
 std::vector<Node*> Grid::getNeighbors(Node* n) {
     //Vector to return with neighbors inside
     std::vector<Node*> neighbors;
+    int invalidCounter = 0;
     int* p = (*(n)).getLocation();
     //Copy constructor to convert the generic Coordinate to type Point
     Point point(p[0], p[1]);
@@ -71,6 +75,12 @@ std::vector<Node*> Grid::getNeighbors(Node* n) {
                 neighbors.push_back(node);
             }
         }
+        else {
+            invalidCounter++;
+        }
+    }
+    else {
+        invalidCounter++;
     }
     //Top border of grid
     if (y + 1 < sizeY) {
@@ -81,7 +91,12 @@ std::vector<Node*> Grid::getNeighbors(Node* n) {
                 node->setPrev(*n);
                 neighbors.push_back(node);
             }
+        } else {
+            invalidCounter++;
         }
+    }
+    else {
+        invalidCounter++;
     }
     //Right border of grid
     if((x + 1) < sizeX) {
@@ -92,7 +107,12 @@ std::vector<Node*> Grid::getNeighbors(Node* n) {
                 node->setPrev(*n);
                 neighbors.push_back(node);
             }
+        }else {
+            invalidCounter++;
         }
+    }
+    else {
+        invalidCounter++;
     }
     //Bottom border of grid
     if((y - 1) >= 0) {
@@ -103,8 +123,20 @@ std::vector<Node*> Grid::getNeighbors(Node* n) {
                 node->setPrev(*n);
                 neighbors.push_back(node);
             }
+        }else {
+            invalidCounter++;
         }
     }
+    else {
+        invalidCounter++;
+    }
+
+    if(invalidCounter == 4) {
+        //return NULL;
+    }
+    if(neighbors.size() == 0) {
+    }
+
     return neighbors;
 }
 /*

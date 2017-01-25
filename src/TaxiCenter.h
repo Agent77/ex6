@@ -54,7 +54,7 @@ public:
     Coordinate* driveAll();
     Driver findClosestDriver(Trip t);
     void addDriver(int driverId, int age, char mStatus, int vehicleId, int exp);
-    void addTrip(Trip* t);
+    bool addTrip(Trip* t);
     void updateMeters();
     int checkDestinations();
     void requestDriverLocation(int driverId);

@@ -30,7 +30,7 @@ public:
     BFS(Graph* g);
     Node* getSource();
     Node* getDest();
-    void getPath();
+    bool getPath();
     void PrintPath(Node* s, Node* d);
     std::vector<Node*> visitNeighbors(Node* n);
     vector<Coordinate*> getFullPath(Coordinate* sLoc, Coordinate* dLoc);

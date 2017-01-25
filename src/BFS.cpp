@@ -51,15 +51,18 @@ void BFS::PrintPath(Node* source, Node* destination) {
  * each iteration, it checks if it has arrived the destination.
  * Once it breaks, it prints the path.
  */
-void BFS::getPath() {
+bool BFS::getPath() {
     Node* newSource;
     Coordinate *c1;
     Coordinate *c2;
     myDeque.push(source);
     newSource = source;
     do {
-
-        visitNeighbors(newSource);
+        vector<Node*> checkValid = visitNeighbors(newSource);
+        if(checkValid.size() == 0) {
+            //cout << "SIZE = 0 returned from visit neighbors"<<endl;
+            return false;
+        }
         if (!myDeque.empty()) {
             myDeque.pop();
         }
@@ -70,6 +73,7 @@ void BFS::getPath() {
             c1 = (*(newSource)).getMyLocation();
             c2 = (*(destination)).getMyLocation();
     } while(!(c2->equalTo(c1)));
+    return true;
 
 }
 
@@ -82,6 +86,10 @@ void BFS::getPath() {
  */
 std::vector<Node*> BFS::visitNeighbors(Node* n) {
     std::vector<Node *> neighbors = (*(graph)).getNeighbors(n);
+    if(neighbors.size() == 0) {
+        //cout << "SIZE = 0 in visit neighbors"<<endl;
+        return neighbors;
+    }
     vector<Node *>::iterator v = neighbors.begin();
     while (v != neighbors.end()) {
         if (!(*(*v)).isVisited()) {
@@ -107,7 +115,10 @@ vector<Coordinate*> BFS::getFullPath(Coordinate* sLoc, Coordinate* dLoc){
     this->destination = graph->getNode(dLoc);
     this->source->visit();
 
-    getPath();
+    bool valid = getPath();
+    if(!valid) {
+        return path;
+    }
     Node *node= destination;
     Node* previousNode;
     while (node != source && node->getPrev()!= NULL){

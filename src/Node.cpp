@@ -11,7 +11,7 @@ Node::Node() {
 }
 
 Node::Node(Node* n) {
-    myLocation = n->myLocation;
+    myLocation = n->myLocation->getMyLocation();
     prev = NULL;
     visited = n->visited;
     obstacle = n->obstacle;

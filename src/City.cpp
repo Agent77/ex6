@@ -23,49 +23,24 @@ Driver City::createDriver(string s) {
     char status;
     int f;
     int i = 0;
-    bool isValid=true;
-    Driver d;
     string g;
-    int size = s.size()/2+1;
-    if(size!=5){
-        isValid=false;
-    }
     std::istringstream sep(s);
     std::getline(sep, g,',');
     std::istringstream (g)>>f;
     for (int j=0; j<(s.size()/2)+1;j++){
         if (i!=2){
             std::istringstream (g)>>f;
-            char*c= (char*)g[0];
-            if (isNumber(c)){
-                info[i]= f;
-            } else{
-                isValid=false;
-            }
+            info[i]= f;
         } else{
-            if (g.size()<2 && g[0]>='A' && g[0]<='Z'){
-                if (isValidStatus(g[0])){
-                    status=g[0];
-                } else{
-                    isValid=false;
-                }
-            } else{
-                isValid=false;
-            }
+            status=g[0];
         }
         std::getline(sep, g,',');
         i++;
     }
-    if (i>5 || i<5){       //means that driver's string is not 5
-        isValid=false;
-    }
-    if (isValid) {
-        d = Driver(info[0], info[1], status, info[3], info[4]);
-    } else {
-        d = Driver(-1, info[1], status, info[3], info[4]);
-    }
+    Driver d = Driver(info[0], info[1], status, info[3], info[4]);
     return d;
 }
+
 
 /*
  * The function parses a given string and creates new trip
@@ -240,6 +215,7 @@ bool City::validTaxi(string s) {
             switch(c4){
                 case 'R':
                     counter2++;
+                    counter2++;
                     break;
                 case 'B':
                     counter2++;
@@ -351,6 +327,9 @@ bool City::validTrip(string s) {
     }
     if (startX<0 && startX>gridSizeX || startY<0 && startY>gridSizeY || endX<0 && endX>gridSizeX
             || endY<0 && endY>gridSizeY){
+        return false;
+    }
+    if(startX == endX && startY == endY) {
         return false;
     }
     return true;

@@ -39,6 +39,7 @@ private:
     int threadId;
     Graph* gps;
     bool calc;
+    bool validPath;
     vector<Coordinate*> path;
     pthread_t pathCalc;
 //sdf
@@ -60,6 +61,9 @@ public:
     int getStartY();
     int getEndX();
     int getEndY();
+    bool hasValidPath() {
+        return validPath;
+    };
     void setThreadId(int id);
     int getThreadId();
     void setMap(Graph* g);
