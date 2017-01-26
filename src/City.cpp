@@ -73,6 +73,10 @@ Trip* City::createTrip(string s) {
  */
 Coordinate* City::createCoordinate(string s) {
     int size=s.size()/2 +1;
+    int counter=0;
+    char c1[4]={0};
+    char c2[4]={0};
+    int index=0;
     if(size!=2){
         return NULL;
     }
@@ -83,9 +87,29 @@ Coordinate* City::createCoordinate(string s) {
     string s1=string(&c1);
     string s2=string(&c2);*/
     if (isNumber(s)) {
-        int x = (int) s[0] - 48;
-        int y = (int) s[2] - 48;
-        if(x<0 || y<0) {
+        for (int i; i < s.size(); i++) {
+            if (s[i] != ',') {
+                switch (counter) {
+                    case 0:
+                        c1[index] = s[i];
+                        index++;
+                        break;
+                    case 1:
+                        c2[index] = s[i];
+                        index++;
+                        break;
+                }
+            } else {
+                counter++;
+                index=0;
+            }
+        }
+        string s1 = string(c1);
+        string s2 = string(c2);
+        int x = stoi(s1);
+        int y = stoi(s2);
+        if (x<0 || x>gridSizeX || y<0 || y>gridSizeY || x<0 || x>gridSizeX
+            || y<0 || y>gridSizeY){
             return NULL;
         }
         Coordinate *point = new Point(x, y);
