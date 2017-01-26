@@ -309,6 +309,7 @@ bool TaxiCenter::hasTaxi(int id) {
 bool TaxiCenter::wdHasDriver(int id, vector<Driver> d) {
     for(int i=0; i<d.size();i++) {
         if(d[i].getDriverId()==id){
+            cout << "("<< d[i].getTrip()->getStart().getX() << ","<<d[i].getTrip()->getStart().getY()<<")"<<endl;
             return true;
         }
     }

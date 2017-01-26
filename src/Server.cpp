@@ -112,7 +112,7 @@ static void* acceptClients(void* dummy) {
             if (firstTime){
                 firstTime=false;
             } else{
-                cout<<"-1"<<endl;
+                cout<<" first time -1"<<endl;
             }
             cin >> action1;
         }while (action1.size()!=1 || !city.isNumber(action1));
@@ -123,7 +123,7 @@ static void* acceptClients(void* dummy) {
             {
                 cin >> input; //how many drivers
                 if (!city.isNumber(input) || input.size()!=1){
-                    cout<<"-1"<<endl;
+                    cout<<" amount of drivers-1"<<endl;
                     break;
                 }
                 threadCommand = 1;
@@ -147,7 +147,7 @@ static void* acceptClients(void* dummy) {
                 cin >> input;
                 Trip* t = city.createTrip(input);
                 if (t==NULL){
-                    cout << "-1" << endl;
+                    cout << " trip -1" << endl;
                     break;
                 }
                 t->setMap(tc.getMap());
@@ -158,7 +158,7 @@ static void* acceptClients(void* dummy) {
                 cin >> s;
                 Taxi t = city.createTaxi(s);
                 if(t.getId()== -1 || tc.hasTaxi(t.getId())) {
-                    cout << "-1" << endl;
+                    cout << "taxi -1" << endl;
                     break;
                 }
                 tc.addTaxi(t);
@@ -169,18 +169,18 @@ static void* acceptClients(void* dummy) {
                 string id;
                 cin >> id;
                 if(!city.isNumber(id)) {
-                    cout << "-1"<< endl;
+                    cout << " 4 -1"<< endl;
                     break;
                 }
                 int drId=stoi(id);
-                if(tc.getDrivers().size()>0 && !tc.hasDriver(drId)) {
-                    cout << "tc:  -1"<< endl;
+                if(tc.getDrivers().size()>0 && tc.hasDriver(drId)) {
+                    tc.requestDriverLocation(stoi(id));
                     break;
-                } else if (!tc.wdHasDriver(drId, waitingDrivers)){
-                    cout << "waitingDrivers: -1"<< endl;
-                    break;
+                } else {
+                    if (!tc.wdHasDriver(drId, waitingDrivers)) {
+                        cout << "waitingDrivers: -1" << endl;
+                    }
                 }
-                tc.requestDriverLocation(stoi(id));
                 break;
             }
             case 9:
@@ -194,7 +194,7 @@ static void* acceptClients(void* dummy) {
 
                 break;
             default:
-                cout << "-1" << endl;
+                cout << " default-1" << endl;
                 break;
         }
 
@@ -327,7 +327,7 @@ void Server::initialize() {
                     cin >> obstacle;
                     Coordinate *c = city.createCoordinate(obstacle);
                     if (c == NULL) {
-                        cout << "-1" << endl;
+                        cout << " obstqacle -1" << endl;
                         isValid = false;
                     } else {
 
@@ -364,9 +364,9 @@ void Server::SendTripToClient() {
 
             //Check if this driver is next
             trip = tc.getNextTrip(timeClock.getTime());
-            cout << "Socket: " << clientSocket << endl;
-            cout << "Driver id: " << myDriver->getDriverId() << endl;
-            cout << "Wants to take trip: " << trip->getId();
+           // cout << "Socket: " << clientSocket << endl;
+           // cout << "Driver id: " << myDriver->getDriverId() << endl;
+           // cout << "Wants to take trip: " << trip->getId();
             int i = 0;
             Point p = trip->getStart();
             while (!waitingDrivers[i].getTrip()->getEnd().equal(&p) && i < waitingDrivers.size()) {
@@ -491,7 +491,7 @@ void Server::sendNextLocation() {
             }
             Point *ptrPoint = myDriver->getTrip()->getNextInPath();
             sleep(1);
-            cout << "Socket: "<<clientSocket<<endl;
+            //cout << "Socket: "<<clientSocket<<endl;
             cout << "Wants to send point: "<<*ptrPoint<<endl;
             tc.moveDriver(myDriver->getDriverId(), ptrPoint);
             myDriver->getTrip()->updateStartPoint(*ptrPoint);
@@ -502,16 +502,16 @@ void Server::sendNextLocation() {
             oa << ptrPoint;
             s1.flush();
             //notifies clients they are about to receive a new location
-            cout << "before send Command"<<endl;
+            //cout << "before send Command"<<endl;
             //BOOST_HAS_LOG1P() << "trying log info"<<endl;
             Server::sendCommand(9);
-            cout << "before send data"<<endl;
+            //cout << "before send data"<<endl;
 
             tcp->sendData(nextLocation, clientSocket);
-            cout << "after send data"<<endl;
+            //cout << "after send data"<<endl;
             //pthread_mutex_unlock(&lockSend);
             verifyResponse();
-            cout << "after verify response"<<endl;
+            //cout << "after verify response"<<endl;
 
             delete ptrPoint;
             //need to assign driver a new trip
