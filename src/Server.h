@@ -117,6 +117,7 @@ public:
     return clientSocket;}
     void verifyResponse();
     void setRank(int rank);
+    bool wdHasDriver(int id);
 
 };
 

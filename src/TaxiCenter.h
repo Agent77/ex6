@@ -74,6 +74,7 @@ public:
     void moveDriver(int id, Point* p);
     pthread_t* getTripCalculator(int id);
     bool hasTaxi(int id);
+    bool wdHasDriver(int id, vector<Driver> d);
 };
 
 

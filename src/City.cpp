@@ -87,8 +87,8 @@ Coordinate* City::createCoordinate(string s) {
     char* c4=&c2;
     string s1=string(&c1);
     string s2=string(&c2);*/
-    if (isNumber(s)) {
-        for (int i; i < s.size(); i++) {
+    //if (isNumber(s)) {
+        for (int i=0; i < s.size(); i++) {
             if (s[i] != ',') {
                 switch (counter) {
                     case 0:
@@ -115,8 +115,8 @@ Coordinate* City::createCoordinate(string s) {
         }
         Coordinate *point = new Point(x, y);
         return point;
-    }
-    return NULL;
+   // }
+    //return NULL;
 }
 
 /*
