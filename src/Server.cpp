@@ -365,7 +365,7 @@ void Server::SendTripToClient() {
             cout << "Wants to take trip: " << trip->getId();
             int i = 0;
             Point p = trip->getStart();
-            while (!waitingDrivers[i].getTrip()->getEnd().equal(&p) || i < waitingDrivers.size()) {
+            while (!waitingDrivers[i].getTrip()->getEnd().equal(&p) && i < waitingDrivers.size()) {
                 i++;
             }
             //if thread has same driver id, then takes the next trip
