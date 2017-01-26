@@ -64,7 +64,7 @@ void* TaxiCenter::move(void* d) {
     Driver* driver = (Driver*)d;
     driver->drive();
     pthread_exit(0);
-   //
+    //
 }
 
 
@@ -127,7 +127,7 @@ int TaxiCenter::assignDrivers() {
         while(driverList != drivers.end()) {
             trip = trips.begin();
             while (trip != trips.end()) {
-            		//matching up trips and driver current locations
+                //matching up trips and driver current locations
                 if ((*(driverList)).getTrip()->getStartX() == ((*(trip))->getStartX())) {
                     if ((*(driverList)).getTrip()->getStartY() == (*(trip))->getStartY()) {
                         Trip t = (*(trip));
@@ -139,9 +139,9 @@ int TaxiCenter::assignDrivers() {
             driverList++;
         }
 
-        }
+    }
     else {
-		//drivers all at (0,0))
+        //drivers all at (0,0))
         vector<Driver>::iterator driverList = drivers.begin();
         vector<Trip*>::iterator trip = trips.begin();
         while (driverList != drivers.end() && trip != trips.end()) {
@@ -201,13 +201,13 @@ bool TaxiCenter::addTrip(Trip* t) {
         trips.push_back(t);
         return true;
     } else {
-        cout << "tc says -1"<<endl;
+        cout << "-1"<<endl;
         return false;
     }
 }
 
 void TaxiCenter::addDriver(int driverId, int age, char mStatus, int exp, int vehicleId) {
-   Driver *d = new Driver (driverId, age, mStatus, exp, vehicleId);
+    Driver *d = new Driver (driverId, age, mStatus, exp, vehicleId);
     drivers.push_back(*d);
 }
 
@@ -294,5 +294,14 @@ void TaxiCenter::moveDriver(int id, Point* p) {
     //Coordinate* c = drivers[i].getTrip()->getNextInPath();
     drivers[i].getTrip()->updateStartPoint(p);
     cout << "New Point in TC: "<< drivers[i].getTrip()->getStart().getX()<< ","<< drivers[i].getTrip()->getStart().getY()<< endl;
+}
 
+bool TaxiCenter::hasTaxi(int id) {
+    int i;
+    for(i=0; i < taxis.size(); i++) {
+        if(taxis[i].getId()==id) {
+            return true;
+        }
+    }
+    return false;
 }

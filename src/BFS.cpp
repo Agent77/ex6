@@ -1,3 +1,4 @@
+
 #include <sstream>
 #include "BFS.h"
 
@@ -59,21 +60,31 @@ bool BFS::getPath() {
     newSource = source;
     do {
         vector<Node*> checkValid = visitNeighbors(newSource);
-        /*TODO check if a neighbor is dstination*/
-        if(checkValid.size() == 0) {
-            //cout << "SIZE = 0 returned from visit neighbors"<<endl;
+        if(checkValid.front()->getMyLocation()->getX() == -1) {
             return false;
         }
+        vector<Node *>::iterator v = checkValid.begin();
+        while (v != checkValid.end()) {
+            if((*(v))->getMyLocation()->equalTo(destination->getMyLocation())) {
+                return true;
+            }
+            v++;
+        }
+        //bool pathFound = graph->allVisitedOrObstacle();
+       // if(!pathFound) {
+            //NO PATH EXISTS
+        //}
         if (!myDeque.empty()) {
             myDeque.pop();
         }
         newSource = myDeque.front();
         if(newSource == NULL) {
-        break;
+            break;
         }
-            c1 = (*(newSource)).getMyLocation();
-            c2 = (*(destination)).getMyLocation();
+        c1 = (*(newSource)).getMyLocation();
+        c2 = (*(destination)).getMyLocation();
     } while(!(c2->equalTo(c1)));
+
     return true;
 
 }
@@ -87,11 +98,10 @@ bool BFS::getPath() {
  */
 std::vector<Node*> BFS::visitNeighbors(Node* n) {
     std::vector<Node *> neighbors = (*(graph)).getNeighbors(n);
-    if(neighbors.size() == 0) {
-        //cout << "SIZE = 0 in visit neighbors"<<endl;
+    vector<Node *>::iterator v = neighbors.begin();
+    if(neighbors.front()->getMyLocation()->getX() == -1) {
         return neighbors;
     }
-    vector<Node *>::iterator v = neighbors.begin();
     while (v != neighbors.end()) {
         if (!(*(*v)).isVisited()) {
             (*(*v)).visit();
@@ -119,6 +129,7 @@ vector<Coordinate*> BFS::getFullPath(Coordinate* sLoc, Coordinate* dLoc){
     bool valid = getPath();
     if(!valid) {
         path.push_back(new Point(-1,-1));
+        return path;
     }
     Node *node= destination;
     Node* previousNode;
@@ -151,4 +162,3 @@ Node* BFS::getSource() {
 Node* BFS::getDest() {
     return destination;
 }
-

@@ -1,6 +1,3 @@
-//
-// Created by Tiki Lobel on 11/17/16.
-//
 
 #ifndef GTESTEX3_BFS_H
 #define GTESTEX3_BFS_H

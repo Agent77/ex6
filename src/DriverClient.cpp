@@ -25,18 +25,19 @@ using namespace boost::archive;
 
 int main(int argc, char* argv[]) {
     City c = City();
-
+    DriverClient client = DriverClient();
     string d;
     cin >> d;
     Driver dr = c.createDriver(d);
     if(dr.getDriverId()!=-1) {
         Driver *driver = &dr;
-        DriverClient client = DriverClient();
         string ipStr = argv[1];
         string portStr = argv[2];
         client.openSocket(driver, ipStr, portStr);
         client.receiveVehicle();
         client.receiveCommand();
+    } else {
+        client.closeSocket();
     }
     return 0;
 }
@@ -155,7 +156,7 @@ void DriverClient::receiveNextPoint() {
     driver.getTrip()->updateStartPoint(p);
     cout << "After update startpoint of driverTrip"<<endl;
 
-    delete p;
+    //delete p;
 
 }
 

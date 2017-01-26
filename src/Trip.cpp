@@ -1,6 +1,5 @@
 
 
-
 #include "Trip.h"
 
 Trip::Trip() {
@@ -34,11 +33,11 @@ Trip::Trip(int tripId, int xStart, int yStart, int xEnd, int yEnd, int numOfPass
  * copy constructor for Trip.
  */
 Trip::Trip(Trip* t) {
-  this->tripId = t->getId();
-  this-> xStart = t->getStartX();
-  this-> xEnd = t->getEndX();
+    this->tripId = t->getId();
+    this-> xStart = t->getStartX();
+    this-> xEnd = t->getEndX();
     this-> yStart = t->getStartY();
-   this->yEnd = t->getEndY();
+    this->yEnd = t->getEndY();
     this->startTime = t->getTripTime();
     this->calc = false;
     validPath = true;
@@ -53,18 +52,18 @@ Trip::~Trip() {
 }
 
 int Trip::getStartX() {
-     return xStart;
+    return xStart;
 }
- int Trip::getStartY() {
-     return yStart;
- }
+int Trip::getStartY() {
+    return yStart;
+}
 
 int Trip::getEndX() {
     return xEnd;
 }
 
 int Trip::getEndY() {
-     return yEnd;
+    return yEnd;
 }
 
 int Trip::getId() {
@@ -143,12 +142,7 @@ int Trip::getSizeOfPath() {
     return path.size();
 }
 
-/*
- * Calculates the entire path from the start to the end
- * of the trip and saves it in a vector, so we can take the next
- * point each time
- */
-void Trip::calculatePath() {
+bool Trip::calculatePath() {
     int xSize= gps->getSizeX();
     int ySize = gps->getSizeY();
     Graph* copyGraph = new Grid(gps);
@@ -163,13 +157,12 @@ void Trip::calculatePath() {
     y = this->getEndY();
     end = new Point(x, y);
     path = bfs.getFullPath(start, end);
-    if(path.front()->getX() == -1) {
-        //cout << "SIZE = 0 calc path in Trip"<<endl;
-        validPath = false;
-    } else {
-        this->setPath(path);
+    if(path.front()->getMyLocation()->getX() == -1) {
+        return false;
     }
+    this->setPath(path);
     delete copyGraph;
     delete start;
     delete end;
+    return true;
 }

@@ -19,7 +19,7 @@ Grid::Grid(int xSize, int ySize) {
         }
     }
 }
- Grid::Grid(Graph *g) {
+Grid::Grid(Graph *g) {
     this->sizeX = g->getSizeX();
     this->sizeY = g->getSizeY();
     //Node** oldNodes = g->getNodes();
@@ -59,7 +59,7 @@ Node* Grid::getLocationOfPrev(Node* n) {
 std::vector<Node*> Grid::getNeighbors(Node* n) {
     //Vector to return with neighbors inside
     std::vector<Node*> neighbors;
-    int invalidCounter = 0;
+    int invalidVisitedCounter = 0;
     int* p = (*(n)).getLocation();
     //Copy constructor to convert the generic Coordinate to type Point
     Point point(p[0], p[1]);
@@ -69,18 +69,26 @@ std::vector<Node*> Grid::getNeighbors(Node* n) {
     if ((x - 1) >= 0) {
         //9 o'clock neighbor
         Node* node = (arrayOfPtrsToNodes[(point.getX()) - 1][(point).getY()]);
+        //not visited
         if(!(node->isVisited())){
+            //not an obstacle
             if(!node->isObstacle()) {
                 node->setPrev(*n);
                 neighbors.push_back(node);
             }
+            else {
+                //is an obstacle
+                invalidVisitedCounter++;
+            }
         }
+            //visited
         else {
-            invalidCounter++;
+            invalidVisitedCounter++;
         }
     }
+        //invalid, off grid
     else {
-        invalidCounter++;
+        invalidVisitedCounter++;
     }
     //Top border of grid
     if (y + 1 < sizeY) {
@@ -91,12 +99,19 @@ std::vector<Node*> Grid::getNeighbors(Node* n) {
                 node->setPrev(*n);
                 neighbors.push_back(node);
             }
-        } else {
-            invalidCounter++;
+            else {
+                //is an obstacle
+                invalidVisitedCounter++;
+            }
+        }
+            //visited
+        else {
+            invalidVisitedCounter++;
         }
     }
+        //invalid, off grid
     else {
-        invalidCounter++;
+        invalidVisitedCounter++;
     }
     //Right border of grid
     if((x + 1) < sizeX) {
@@ -107,12 +122,19 @@ std::vector<Node*> Grid::getNeighbors(Node* n) {
                 node->setPrev(*n);
                 neighbors.push_back(node);
             }
-        }else {
-            invalidCounter++;
+            else {
+                //is an obstacle
+                invalidVisitedCounter++;
+            }
+        }
+            //visited
+        else {
+            invalidVisitedCounter++;
         }
     }
+        //invalid, off grid
     else {
-        invalidCounter++;
+        invalidVisitedCounter++;
     }
     //Bottom border of grid
     if((y - 1) >= 0) {
@@ -123,18 +145,24 @@ std::vector<Node*> Grid::getNeighbors(Node* n) {
                 node->setPrev(*n);
                 neighbors.push_back(node);
             }
-        }else {
-            invalidCounter++;
+            else {
+                //is an obstacle
+                invalidVisitedCounter++;
+            }
+        }
+            //visited
+        else {
+            invalidVisitedCounter++;
         }
     }
+        //invalid, off grid
     else {
-        invalidCounter++;
+        invalidVisitedCounter++;
     }
 
-    if(invalidCounter == 4) {
-        //return NULL;
-    }
-    if(neighbors.size() == 0) {
+    if(invalidVisitedCounter == 4) {
+        cout << "Four invalid neighbors! I'm stuck!"<<endl;
+        neighbors.push_back(new Node(new Point(-1,-1)));
     }
 
     return neighbors;
@@ -189,8 +217,8 @@ void Grid::resetGraph(){
     }
 }
 //void Grid::getNodes() {
-  //  Node* n = arrayOfPtrsToNodes[2][2];
-    //int num = n->getLocation()[0];
+//  Node* n = arrayOfPtrsToNodes[2][2];
+//int num = n->getLocation()[0];
 //}
 
 int Grid::getSizeX() {
@@ -200,4 +228,3 @@ int Grid::getSizeX() {
 int Grid::getSizeY() {
     return sizeY;
 }
-

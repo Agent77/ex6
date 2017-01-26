@@ -11,6 +11,7 @@ City::City() {
 void City::CallTaxiCenter(Passenger p) {
 
 }
+
 Passenger City::checkForPassengerCalls() {
 
 }
@@ -61,7 +62,7 @@ Trip* City::createTrip(string s) {
             std::istringstream(g) >> f;
         }
         Trip* trip = new Trip(value[0], value[1], value[2], value[3],
-                         value[4], value[5], value[6], value[7]);
+                              value[4], value[5], value[6], value[7]);
         return trip;
     } else {
         return NULL;
@@ -389,8 +390,8 @@ bool City::validTrip(string s) {
     if (counter!=7 || id<0 || pass<0 || tariff<0 || time<=0){
         return false;
     }
-    if (startX<0 && startX>gridSizeX || startY<0 && startY>gridSizeY || endX<0 && endX>gridSizeX
-            || endY<0 && endY>gridSizeY){
+    if (startX<0 || startX>=gridSizeX || startY<0 || startY>=gridSizeY || endX<0 || endX>=gridSizeX
+        || endY<0 || endY>=gridSizeY){
         return false;
     }
     if(startX == endX && startY == endY) {

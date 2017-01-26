@@ -67,7 +67,10 @@ public:
     void setThreadId(int id);
     int getThreadId();
     void setMap(Graph* g);
-    void calculatePath();
+    bool calculatePath();
+    void setInvalid() {
+        validPath = false;
+    }
     void setPath(vector<Coordinate*> p);
     Point* getNextInPath();
     int getSizeOfPath();

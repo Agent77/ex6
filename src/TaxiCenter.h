@@ -1,6 +1,3 @@
-//
-// Created by Tiki Lobel on 11/29/16.sdfsdf
-//
 
 #ifndef EX2_TAXICENTER_H
 #define EX2_TAXICENTER_H
@@ -76,6 +73,7 @@ public:
     bool hasDriver(int id);
     void moveDriver(int id, Point* p);
     pthread_t* getTripCalculator(int id);
+    bool hasTaxi(int id);
 };
 
 

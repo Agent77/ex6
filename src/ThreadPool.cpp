@@ -20,11 +20,13 @@ void ThreadPool::startCalculations(int sentId) {
             tripsToCalculate.pop();
             t->setThreadId(id);
             pthread_mutex_unlock(&lock);
-            t->calculatePath();
+            bool valid = t->calculatePath();
+            if(!valid) {
+                t->setInvalid();
+            }
             //if(t->hasValidPath()) {
-                cout << "Calculated" << endl;
-                t->isCalculated(1);
-           // }
+            cout << "Calculated"<<endl;
+            t->isCalculated(1);
         }
         else {
             pthread_mutex_unlock(&lock);
@@ -56,7 +58,7 @@ void ThreadPool::terminate() {
 
 ThreadPool::~ThreadPool() {
     // TODO Auto-generated destructor stub
-   // terminate();
+    // terminate();
     delete[] calculatorThreads;
     pthread_mutex_destroy(&lock);
 }
