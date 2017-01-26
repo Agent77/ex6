@@ -305,3 +305,12 @@ bool TaxiCenter::hasTaxi(int id) {
     }
     return false;
 }
+
+bool TaxiCenter::wdHasDriver(int id, vector<Driver> d) {
+    for(int i=0; i<d.size();i++) {
+        if(d[i].getDriverId()==id){
+            return true;
+        }
+    }
+    return false;
+}

@@ -172,8 +172,12 @@ static void* acceptClients(void* dummy) {
                     cout << "-1"<< endl;
                     break;
                 }
-                if(!tc.hasDriver(stoi(id))) {
-                    cout << "-1"<< endl;
+                int drId=stoi(id);
+                if(tc.getDrivers().size()>0 && !tc.hasDriver(drId)) {
+                    cout << "tc:  -1"<< endl;
+                    break;
+                } else if (!tc.wdHasDriver(drId, waitingDrivers)){
+                    cout << "waitingDrivers: -1"<< endl;
                     break;
                 }
                 tc.requestDriverLocation(stoi(id));
