@@ -100,8 +100,8 @@ Coordinate* City::createCoordinate(string s) {
 Graph* City::createGraph(string s) {
     /*char* c1=(char*)s;
     char* c2=(char*)s1[0];*/
-    char c1[3];
-    char c2[3];
+    char c1[4]={0};
+    char c2[4]={0};
     int counter =0;
     int index=0;
     for (int i=0; i<s.size(); i++){
@@ -109,9 +109,11 @@ Graph* City::createGraph(string s) {
             switch (counter) {
                 case 0:
                     c1[index] = s[i];
+                    index++;
                     break;
                 case 1:
                     c2[index] = s[i];
+                    index++;
                     break;
             }
         } else if (s[i]==' ' && counter==0){
@@ -120,6 +122,9 @@ Graph* City::createGraph(string s) {
         } else{
             return NULL;
         }
+    }
+    if (c1[0]==0 || c2[0]==0){
+        return NULL;
     }
     string s1= string (c1);
     string s2= string (c2);
@@ -135,9 +140,9 @@ Graph* City::createGraph(string s) {
 /*
  * The function parses a given string and creates new taxi
  */
-Taxi City::createTaxi(string s) {
-    int id = (int)s[0] - 48; //todo change//
-    int type = (int)s[2] - 48;
+/*Taxi City::createTaxi(string s) {
+    int id;// = (int)s[0] - 48;
+    int type;// = (int)s[2] - 48;
     if (validTaxi(s)) {
         if (type == 1) {
             StandardCab t = StandardCab(id, type, s[4], s[6]);
@@ -150,7 +155,7 @@ Taxi City::createTaxi(string s) {
         StandardCab t = StandardCab(-1, type, s[4], s[6]);
         return t;
     }
-}
+}*/
 
 bool City::isValidStatus(char c){
     switch(c) {
@@ -178,15 +183,22 @@ bool City::isNumber(string s) {
     return true;
 }
 
-bool City::validTaxi(string s) {
+Taxi City::createTaxi(string s) {
     int counter=0;
     int size= s.size();
     int index=0;
     char s1[3];
     char s2[3];
+    bool valid=true;
     int i=0;
+    int id;
+    int type;
     for(; i<size; i++){
         if (s[i]!=',') {
+            if (!isdigit(s[i])){
+                valid = false;
+                break;
+            }
             if (counter==0) {
                 s1[index] = s[i];
             } else {
@@ -202,60 +214,70 @@ bool City::validTaxi(string s) {
             break;
         }
     }
-    string s3=string(s1);
+    string s3= string(s1);
     string s4= string(s2);
-    char c3= (char)s[4];
-    char c4= (char)s[6];
+    char c3= (char)s[i];
+    char c4= (char)s[i+2];
     int counter2=0;
-    int size1= s.size()/2+1;
-    if (size1!=4){
-        return false;
-    }
-    if (isNumber(s3)&&isNumber((s4))){
-        int firstInt=stoi(s3);
-        int secondInt=stoi(s4);
-        if (firstInt>=0 && (secondInt==1|| secondInt==2)) {
-            switch (c3) {
-                case 'H':
-                    counter2++;
-                    break;
-                case 'S':
-                    counter2++;
-                    break;
-                case 'T':
-                    counter2++;
-                    break;
-                case 'F':
-                    counter2++;
-                    break;
-                default:
-                    break;
-            }
-            switch(c4){
-                case 'R':
-                    counter2++;
-                    break;
-                case 'B':
-                    counter2++;
-                    break;
-                case 'G':
-                    counter2++;
-                    break;
-                case 'P':
-                    counter2++;
-                    break;
-                case 'W':
-                    counter2++;
-                    break;
-                default:
-                    break;
+    if (counter==2) {
+        if (isNumber(s3) && isNumber((s4))) {
+            id = stoi(s3);
+            type = stoi(s4);
+            if (id >= 0 && (type == 1 || type == 2)) {
+                switch (c3) {
+                    case 'H':
+                        counter2++;
+                        break;
+                    case 'S':
+                        counter2++;
+                        break;
+                    case 'T':
+                        counter2++;
+                        break;
+                    case 'F':
+                        counter2++;
+                        break;
+                    default:
+                        valid=false;
+                        break;
+                }
+                switch (c4) {
+                    case 'R':
+                        counter2++;
+                        break;
+                    case 'B':
+                        counter2++;
+                        break;
+                    case 'G':
+                        counter2++;
+                        break;
+                    case 'P':
+                        counter2++;
+                        break;
+                    case 'W':
+                        counter2++;
+                        break;
+                    default:
+                        valid=false;
+                        break;
+                }
             }
         }
+    } else {
+        valid = false;
     }
-    if (counter2==2){
-        return true;
+    if (counter2==2 || valid){
+        if (type == 1) {
+            StandardCab t = StandardCab(id, type, c3, c4);
+            return t;
+        } else if (type == 2) {
+            LuxuryCab t = LuxuryCab(id, type, c3, c4);
+            return t;
+        }
     }
-    return false;
+    StandardCab t = StandardCab(-1, 1, 'L', 'N');
+    return t;
+
 }
 
 bool City::validTrip(string s) {

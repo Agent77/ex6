@@ -72,19 +72,32 @@ int main(int argc, char* argv[]) {
    ********************************************************************/
 static void* acceptClients(void* dummy) {
     bool run = true;
-    char action1;
+    string action1;
     string input;
     string s;
+    bool firstTime=true;
 
 //Actions the user can perform
     while (run) {
         commandCompleted = false;
-        cin >> action1;
-        int action = (int)action1 - 48;
+        do {
+            if (firstTime){
+                firstTime=false;
+            } else{
+                cout<<"-1"<<endl;
+            }
+            cin >> action1;
+        }while (action1.size()!=1 || !city.isNumber(action1));
+        firstTime=true;
+        int action = stoi(action1);
         switch(action) {
             case 1: //Insert Driver
             {
                 cin >> input; //how many drivers
+                if (!city.isNumber(input) || input.size()!=1){
+                    cout<<"-1"<<endl;
+                    break;
+                }
                 threadCommand = 1;
                 //creating the threads given clients
                 int num = stoi(input);
