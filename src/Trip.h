@@ -45,9 +45,25 @@ private:
 //sdf
 public:
     Trip();
-    Trip(int tripId, int xStart, int yStart, int xEnd, int yEnd, int numOfPassengers, double tariff, int time);
+    Trip(int tripId, int xStart, int yStart, int xEnd, int yEnd,
+         int numOfPassengers, double tariff, int time);
     Trip(Trip* t);
     ~Trip();
+    /***********************************************************************
+* function name: CalculatePath										   *
+* The Input: none      		                                           *
+* The output: valid/invalid path                           	           *
+* The Function operation: calcultes path from start to end of trip	   *
+***********************************************************************/
+    bool calculatePath();
+    /***********************************************************************
+* function name: getNextInPath										   *
+* The Input: none                                		               *
+* The output: next location                               	           *
+* The Function operation: pulls the next location from vector, deletes
+* it, and returns it                                                    *
+***********************************************************************/
+    Point* getNextInPath();
     int getId();
     int getMeters();
     int getNumOfPassengers();
@@ -61,21 +77,20 @@ public:
     int getStartY();
     int getEndX();
     int getEndY();
+    int getSizeOfPath();
+    bool pathCalculated();
+    void isCalculated(int i);
+    void setPath(vector<Coordinate*> p);
+    void setInvalid() {
+        validPath = false;
+    }
     bool hasValidPath() {
         return validPath;
     };
     void setThreadId(int id);
-    int getThreadId();
     void setMap(Graph* g);
-    bool calculatePath();
-    void setInvalid() {
-        validPath = false;
-    }
-    void setPath(vector<Coordinate*> p);
-    Point* getNextInPath();
-    int getSizeOfPath();
-    bool pathCalculated();
-    void isCalculated(int i);
+
+
 };
 
 

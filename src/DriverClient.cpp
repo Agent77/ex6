@@ -175,7 +175,6 @@ void DriverClient::openSocket(Driver *driverSent, string currentIp, string port)
     client->setIP(currentIp);
     int result = client->initialize(0);
 
-
     // SERIALIZATION
     std::string serial_str;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
@@ -228,6 +227,10 @@ string DriverClient::createString(char* buffer, int bufferSize) {
     return str;
 }
 
+/*
+ * Function to send verification that
+ * client received information
+ */
 void DriverClient::sendVerification() {
 
     //cout << "** before send verification ** "<<endl;

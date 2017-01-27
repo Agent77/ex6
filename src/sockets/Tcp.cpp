@@ -5,8 +5,6 @@
 ************************************************************/
 
 #include "Tcp.h"
-
-pthread_mutex_t lockSend;
 /***********************************************************************
 * function name: Tcp												   *
 * The Input: Boolean, true - if server, false if client	and port number*
@@ -42,7 +40,7 @@ int Tcp::initialize(int c) {
     this->socketDescriptor = socket(AF_INET, SOCK_STREAM, 0);
     if (this->socketDescriptor < 0) {
         //return an error represent error at this method
-        //return ERROR_SOCKET;
+        return ERROR_SOCKET;
     }
     //if server
     if (this->isServer) {
@@ -56,18 +54,17 @@ int Tcp::initialize(int c) {
         if (::bind(this->socketDescriptor,
                    (struct sockaddr *) &sin, sizeof(sin)) < 0) {
             //return an error represent error at this method
-            //return ERROR_BIND;
+            return ERROR_BIND;
         }
         //listen
         if (listen(this->socketDescriptor, this->backLog) < 0) {
             //return an error represent error at this method
-            // return ERROR_LISTEN;
+             return ERROR_LISTEN;
         }
 
     }
         //if client
         else {
-
         struct sockaddr_in sin;
         memset(&sin, 0, sizeof(sin));
         sin.sin_family = AF_INET;
@@ -76,13 +73,17 @@ int Tcp::initialize(int c) {
         if (connect(this->socketDescriptor,
                     (struct sockaddr *) &sin, sizeof(sin)) < 0) {
             //return an error represent error at this method
+            return ERROR_CONNECT;
         }
 
     }
+    return CORRECT;
     //return correct if there were no problem
 }
 
-
+/*
+ * Accepts a client.
+ */
 int Tcp::acceptClient() {
     int clientSocket;
     struct sockaddr_in client_sin;
@@ -126,7 +127,10 @@ int Tcp::sendData(string data, int port) {
 ***********************************************************************/
 int Tcp::reciveData(char* buffer, int size, int socket) {
 
-
+    /*
+     * Sets te socket descriptor to a specific client
+     * so each thread sends to a different location
+     */
     descriptorCommunicateClient = socket;
 
     int read_bytes = recv(this->isServer ? this->descriptorCommunicateClient
@@ -139,11 +143,7 @@ int Tcp::reciveData(char* buffer, int size, int socket) {
         //return an error represent error at this method
         return ERROR_RECIVE;
     } else {
-        //prinrting the massege
-//		cout<<buffer<<endl;
     }
-
-
     //return correct if there were no problem
     return read_bytes;
 }

@@ -59,10 +59,18 @@ bool BFS::getPath() {
     myDeque.push(source);
     newSource = source;
     do {
+        /*
+         * if visit neighbors returns a neighbor with -1 as
+         * a coordinate, it means its an invalid path
+         */
         vector<Node*> checkValid = visitNeighbors(newSource);
         if(checkValid.front()->getMyLocation()->getX() == -1) {
             return false;
         }
+        /*
+         * If the destination is included in the neighbors, we want to
+         * return true, since we successfully arrived.
+         */
         vector<Node *>::iterator v = checkValid.begin();
         while (v != checkValid.end()) {
             if((*(v))->getMyLocation()->equalTo(destination->getMyLocation())) {
@@ -70,10 +78,6 @@ bool BFS::getPath() {
             }
             v++;
         }
-        //bool pathFound = graph->allVisitedOrObstacle();
-       // if(!pathFound) {
-            //NO PATH EXISTS
-        //}
         if (!myDeque.empty()) {
             myDeque.pop();
         }
@@ -84,7 +88,6 @@ bool BFS::getPath() {
         c1 = (*(newSource)).getMyLocation();
         c2 = (*(destination)).getMyLocation();
     } while(!(c2->equalTo(c1)));
-
     return true;
 
 }
@@ -99,6 +102,10 @@ bool BFS::getPath() {
 std::vector<Node*> BFS::visitNeighbors(Node* n) {
     std::vector<Node *> neighbors = (*(graph)).getNeighbors(n);
     vector<Node *>::iterator v = neighbors.begin();
+    /*
+     * if getNeighbors returns a neighbor with -1 as
+     * a coordinate, it means its an invalid path
+     */
     if(neighbors.front()->getMyLocation()->getX() == -1) {
         return neighbors;
     }
@@ -118,15 +125,14 @@ std::vector<Node*> BFS::visitNeighbors(Node* n) {
  * destination to source to get next place in path.
  */
 vector<Coordinate*> BFS::getFullPath(Coordinate* sLoc, Coordinate* dLoc){
-//    graph->getNodes();
     vector<Coordinate*> path;
 
     vector<Coordinate*> tempPath;
     source =  graph->getNode(sLoc);
     this->destination = graph->getNode(dLoc);
     this->source->visit();
-
     bool valid = getPath();
+    //If returned invalid, then no path exists
     if(!valid) {
         path.push_back(new Point(-1,-1));
         return path;
@@ -145,7 +151,6 @@ vector<Coordinate*> BFS::getFullPath(Coordinate* sLoc, Coordinate* dLoc){
         path.push_back(p);
         i++;
     }
-    //path.push_back(destination->getMyLocation());
     return path;
 }
 

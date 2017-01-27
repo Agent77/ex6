@@ -26,17 +26,12 @@ class Driver {
 private:
     int driverId;
     int age;
-    int numberOfcustomers;
     int exp;
     int vehicleId;
-    double totalRate;
-    double avgSatisfaction;
     char maritalStatus;
-    Graph* gps;
     Taxi taxi;
     Trip* myTrip;
     bool hasTripAlready;
-   // std::vector <Passenger> myPassengers;
 
 public:
     Driver();
@@ -45,21 +40,18 @@ public:
     int getAge();
     int getVehicleId();
     int getDriverId();
-    int getExp() {
-        return exp;
-    };
-    static void* driveNow(void* d);
-    double getSatisfaction();
     Taxi getTaxi();
     Trip* getTrip();
-    char getMaritalStatus();
     void setTaxi(Taxi t);
     void setTrip(Trip* t);
-    void rateMe(int rating);
-    void drive();
+    /*
+     * checks if start point of
+     * trip equals end point
+     */
     bool arrived();
     void setMap(Graph* map);
     bool hasTrip();
+    //Function to know if driver needs a new trip
     void eraseTrip();
 };
 

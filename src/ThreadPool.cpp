@@ -41,7 +41,6 @@ void ThreadPool::addTripToCalculate(Trip *t) {
 }
 
 ThreadPool::ThreadPool(int threads_num) : threads_num(threads_num), stop(false) {
-    // TODO Auto-generated constructor stub
     calculatorThreads = new pthread_t[threads_num];
 
     pthread_mutex_init(&lock, NULL);
@@ -57,8 +56,8 @@ void ThreadPool::terminate() {
 }
 
 ThreadPool::~ThreadPool() {
-    // TODO Auto-generated destructor stub
-    // terminate();
+    // TODO ADDED TERMINATE MAY NEED TO remove
+    terminate();
     delete[] calculatorThreads;
     pthread_mutex_destroy(&lock);
 }

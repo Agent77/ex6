@@ -41,7 +41,6 @@ public:
 	* The Function operation: adds a trip to the deque                     *
 	***********************************************************************/
     void addTripToCalculate(Trip *t);
-    void terminate();
     bool isEmpty();
     /***********************************************************************
 	* function name: getThread                 								   *
@@ -52,6 +51,7 @@ public:
 	***********************************************************************/
     pthread_t* getThread(int id);
     int getCurrentId();
+    void terminate();
     virtual ~ThreadPool();
 };
 
