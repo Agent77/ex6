@@ -28,6 +28,32 @@ Driver::Driver(int driverId, int age, char mStatus, int exp, int vehicleId) {
 
 }
 
+/*
+* using its grid, the driver uses a bfs algorithms to
+* continue travelling until it arrives at its destination.
+*/
+void Driver::drive() {
+    /*int xSize= gps->getSizeX();
+    int ySize = gps->getSizeY();
+    Graph* copyGraph = new Grid(xSize, ySize);
+    BFS bfs =  BFS(copyGraph);
+    vector<Coordinate*> path;
+    Coordinate *start;
+    Coordinate *end;
+    int x = myTrip.getStartX();
+    int y = myTrip.getStartY();
+    start = new Point(x, y);
+    x = myTrip.getEndX();
+    y = myTrip.getEndY();
+    end = new Point(x, y);
+    path = bfs.getFullPath(start, end);
+
+    myTrip.setPath(path);
+    delete copyGraph;
+    delete start;
+    delete end;*/
+}
+
 int Driver::getAge() {
     return age;
 }
@@ -53,9 +79,6 @@ void Driver::setTrip(Trip* t) {
     hasTripAlready = true;
 }
 
-/*void Driver::addPassenger(Passenger p) {
-    myPassengers.push_back(p);
-}*/
 
 Driver::~Driver() {
 

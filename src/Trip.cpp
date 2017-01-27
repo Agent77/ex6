@@ -134,10 +134,6 @@ void Trip::setThreadId(int id) {
     threadId = id;
 }
 
-int Trip::getThreadId() {
-    return threadId;
-}
-
 int Trip::getSizeOfPath() {
     return path.size();
 }

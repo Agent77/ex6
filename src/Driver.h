@@ -29,6 +29,7 @@ private:
     int exp;
     int vehicleId;
     char maritalStatus;
+    Graph* gps;
     Taxi taxi;
     Trip* myTrip;
     bool hasTripAlready;
@@ -44,10 +45,8 @@ public:
     Trip* getTrip();
     void setTaxi(Taxi t);
     void setTrip(Trip* t);
-    /*
-     * checks if start point of
-     * trip equals end point
-     */
+    void rateMe(int rating);
+    void drive();
     bool arrived();
     void setMap(Graph* map);
     bool hasTrip();

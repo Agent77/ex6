@@ -53,20 +53,6 @@ bool TaxiCenter::hasDriver(int id) {
     return false;
 
 }
-void TaxiCenter::calculatePath(pthread_t* pathCreator, Driver* d) {
-    //threadpool.addPath()
-    pthread_create(pathCreator, NULL, move, (void*)d);
-
-    //pthread_join(*pathCreator, NULL);
-}
-
-void* TaxiCenter::move(void* d) {
-    Driver* driver = (Driver*)d;
-    driver->drive();
-    pthread_exit(0);
-    //
-}
-
 
 void TaxiCenter::updateMeters() {
 

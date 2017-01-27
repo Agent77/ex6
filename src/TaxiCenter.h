@@ -68,8 +68,6 @@ public:
     void assignTrip(Trip t);
     void resetDrivers(vector<Driver> d);
     void deleteDriver(int i);
-    static void* move(void* d);
-    void calculatePath(pthread_t* pathCreator, Driver* d);
     bool hasDriver(int id);
     void moveDriver(int id, Point* p);
     pthread_t* getTripCalculator(int id);

@@ -104,12 +104,11 @@ static void* acceptClients(void* dummy) {
 
         switch(action) {
 
-            case 1: //Insert Driver
-
+            case 1: {//Insert Driver
                 cin >> input; //how many drivers
                 //Checks if input is a number
-                if (!city.isNumber(input) || input.size()!=1){
-                    cout<<" amount of drivers-1"<<endl;
+                if (!city.isNumber(input) || input.size() != 1) {
+                    cout << " amount of drivers-1" << endl;
                     break;
                 }
                 // Sets global variable to 1
@@ -120,14 +119,15 @@ static void* acceptClients(void* dummy) {
                 int clientSockets = tcp->initialize(num);
                 int i;
                 //Opens a thread for each client received
-                for(i = 0; i < numOfClients; i++) {
-                    pthread_t* thread =  new pthread_t();
-                    Server* tempServer = new Server();
+                for (i = 0; i < numOfClients; i++) {
+                    pthread_t *thread = new pthread_t();
+                    Server *tempServer = new Server();
                     int socket = tcp->acceptClient();
                     tempServer->setSocket(socket);
-                    pthread_create(thread, NULL, assist, (void*)tempServer);
+                    pthread_create(thread, NULL, assist, (void *) tempServer);
                 }
                 break;
+            }
 
             case 2: {//insert a trip
                 cin >> input;
@@ -143,6 +143,7 @@ static void* acceptClients(void* dummy) {
                  * function.
                  */
                 bool validTrip = tc.addTrip(t);
+
                 break;
             }
             case 3: {//Insert a taxi
@@ -155,19 +156,19 @@ static void* acceptClients(void* dummy) {
                 }
                 tc.addTaxi(t);
                 vehicles.push_back(t);
+
                 break;
             }
-
             case 4: { //To check location of a driver
                 string id;
                 cin >> id;
-                if(!city.isNumber(id)) {
-                    cout << " 4 -1"<< endl;
+                if (!city.isNumber(id)) {
+                    cout << " 4 -1" << endl;
                     break;
                 }
-                int drId=stoi(id);
+                int drId = stoi(id);
                 //Checks if the driver exists
-                if(tc.getDrivers().size()>0 && tc.hasDriver(drId)) {
+                if (tc.getDrivers().size() > 0 && tc.hasDriver(drId)) {
                     tc.requestDriverLocation(stoi(id));
                     break;
                 } else {
