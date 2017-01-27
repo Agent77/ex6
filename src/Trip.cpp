@@ -120,7 +120,6 @@ void Trip::setPath(vector<Coordinate *> p) {
 }
 
 void Trip::setMap(Graph* g) {
-    //cout << "visited"<<endl;
     gps = g;
 }
 

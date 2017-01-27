@@ -17,33 +17,71 @@ Passenger City::checkForPassengerCalls() {
 }
 
 /*
- * The function parses a given string and creates new driver
+ * The function parses a given string and creates new driver. if input is incorrect, returns fake
+ * driver with id -1.
  */
 Driver City::createDriver(string s) {
-    int info[6];
     char status;
-    int f;
-    int i = 0;
-    string g;
-    std::istringstream sep(s);
-    std::getline(sep, g,',');
-    std::istringstream (g)>>f;
-    for (int j=0; j<(s.size()/2)+1;j++){
-        if (i!=2){
-            std::istringstream (g)>>f;
-            info[i]= f;
-        } else{
-            status=g[0];
+    char cId[3];
+    char cAge[3];
+    char cExp[3];
+    char cVId[3];
+    int index=0;
+    int counter = 0;
+    Driver d;
+    bool valid=true;
+    for (int j=0; j<s.size();j++){
+        if (s[j]!=',') {
+            if (counter != 2) {
+                if (isdigit(s[j])) {
+                    switch (counter) {
+                        case 0:
+                            cId[index] = s[j];
+                            break;
+                        case 1:
+                            cAge[index] = s[j];
+                            break;
+                        case 3:
+                            cExp[index] = s[j];
+                            break;
+                        case 4:
+                            cVId[index] = s[j];
+                            break;
+                    }
+                    index++;
+                }else {
+                    valid=false;
+                    break;
+                }
+            }else{
+                status=s[j];
+                valid = isValidStatus(status);
+            }
+        }else{
+            counter++;
+            index=0;
         }
-        std::getline(sep, g,',');
-        i++;
     }
-    Driver d = Driver(info[0], info[1], status, info[3], info[4]);
+    if (counter==4 && valid){
+        string sId=string (cId);
+        string sAge=string (cAge);
+        string sExp=string (cExp);
+        string sVId=string (cVId);
+        int id = stoi(sId);
+        int age = stoi(sAge);
+        int exp = stoi(sExp);
+        int vId = stoi(sVId);
+        if (id>=0 && age>=0 && exp>=0 && vId>=0){
+            d = Driver(id, age, status, exp, vId);
+            return d;
+        }
+    }
+   d = Driver (-1,-1,'M',-1,-1);
     return d;
 }
 
 /*
- * The function parses a given string and creates new trip
+ * The function parses a given string and creates new trip. if input is incorrect returns NULL.
  */
 Trip* City::createTrip(string s) {
     //8 ints
@@ -70,7 +108,7 @@ Trip* City::createTrip(string s) {
 }
 
 /*
- * The function parses a given string and creates new coordinate
+ * The function parses a given string and creates new coordinate. if input is incorrect returns NULL.
  */
 Coordinate* City::createCoordinate(string s) {
     int size=s.size()/2 +1;
@@ -81,50 +119,42 @@ Coordinate* City::createCoordinate(string s) {
     if(size!=2){
         return NULL;
     }
-    /*char c1=s[0];
-    char c2=s[2];
-    char* c3=&c1;
-    char* c4=&c2;
-    string s1=string(&c1);
-    string s2=string(&c2);*/
-    //if (isNumber(s)) {
-        for (int i=0; i < s.size(); i++) {
-            if (s[i] != ',') {
-                switch (counter) {
-                    case 0:
-                        c1[index] = s[i];
-                        index++;
-                        break;
-                    case 1:
-                        c2[index] = s[i];
-                        index++;
-                        break;
-                }
-            } else {
-                counter++;
-                index=0;
+    for (int i=0; i < s.size(); i++) {
+        if (s[i] != ',') {
+            switch (counter) {
+                case 0:
+                    c1[index] = s[i];
+                    index++;
+                    break;
+                case 1:
+                    c2[index] = s[i];
+                    index++;
+                    break;
             }
+        } else {
+            counter++;
+            index=0;
         }
-        string s1 = string(c1);
-        string s2 = string(c2);
-        int x = stoi(s1);
-        int y = stoi(s2);
-        if (x<0 || x>gridSizeX || y<0 || y>gridSizeY || x<0 || x>gridSizeX
-            || y<0 || y>gridSizeY){
-            return NULL;
-        }
-        Coordinate *point = new Point(x, y);
-        return point;
-   // }
-    //return NULL;
+    }
+    string s1 = string(c1);
+    string s2 = string(c2);
+    if(!isNumber(s1) || !isNumber((s2))){
+        return NULL;
+    }
+    int x = stoi(s1);
+    int y = stoi(s2);
+    if (x<0 || x>gridSizeX || y<0 || y>gridSizeY || x<0 || x>gridSizeX
+        || y<0 || y>gridSizeY){
+        return NULL;
+    }
+    Coordinate *point = new Point(x, y);
+    return point;
 }
 
 /*
- * The function parses a given string and creates new graph
+ * The function parses a given string and creates new graph. if input is incorrect returns NULL.
  */
 Graph* City::createGraph(string s) {
-    /*char* c1=(char*)s;
-    char* c2=(char*)s1[0];*/
     char c1[4]={0};
     char c2[4]={0};
     int counter =0;
@@ -163,25 +193,8 @@ Graph* City::createGraph(string s) {
 }
 
 /*
- * The function parses a given string and creates new taxi
+ * checks whether a given char is a correct driver status
  */
-/*Taxi City::createTaxi(string s) {
-    int id;// = (int)s[0] - 48;
-    int type;// = (int)s[2] - 48;
-    if (validTaxi(s)) {
-        if (type == 1) {
-            StandardCab t = StandardCab(id, type, s[4], s[6]);
-            return t;
-        } else if (type == 2) {
-            LuxuryCab t = LuxuryCab(id, type, s[4], s[6]);
-            return t;
-        }
-    } else {
-        StandardCab t = StandardCab(-1, type, s[4], s[6]);
-        return t;
-    }
-}*/
-
 bool City::isValidStatus(char c){
     switch(c) {
         case 'S':
@@ -197,9 +210,10 @@ bool City::isValidStatus(char c){
     }
 }
 
-
+/*
+ * checks if a given string has only numbers and ','
+ */
 bool City::isNumber(string s) {
-    //string s1=string(s);
     for (int i=0; i<s.size(); i++){
         if (!isdigit(s[i]) && !s[i]==','){
             return false;
@@ -208,6 +222,10 @@ bool City::isNumber(string s) {
     return true;
 }
 
+/*
+ * The function parses a given string and creates new taxi. if input incorrect returns fake taxi
+ * with id -1.
+ */
 Taxi City::createTaxi(string s) {
     int counter=0;
     int size= s.size();
@@ -305,6 +323,9 @@ Taxi City::createTaxi(string s) {
 
 }
 
+/*
+ * checks whether a given string is correct input for a trip or not
+ */
 bool City::validTrip(string s) {
     int size=s.size();
     int i=0;
@@ -327,17 +348,7 @@ bool City::validTrip(string s) {
     char sTime[3];
     int counter=0;
     char c[3];
-   /* if (size!=8){
-        return false;
-    }
-    for (int j=0; j<size; j+=2){
-        char* c= (char*)s[i];
-        if (!isNumber(c)){
-            return false;
-        }
-    }*/
     while (i<size) {
-        //while (s[i] != ',') {
         if (s[i] != ','){
             if (!isdigit(s[i])) {
                 return false;

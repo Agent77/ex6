@@ -24,8 +24,6 @@ void ThreadPool::startCalculations(int sentId) {
             if(!valid) {
                 t->setInvalid();
             }
-            //if(t->hasValidPath()) {
-            cout << "Calculated"<<endl;
             t->isCalculated(1);
         }
         else {

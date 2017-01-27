@@ -81,7 +81,6 @@ void DriverClient::receiveTrip() {
      * serialized reception                                                *
 	***********************************************************************/
 int DriverClient::receiveCommand() {
-   // cout << "Enter receiveCommand"<<endl;
     char buffer[1024];
     const int newPoint = 9;
     const int newTrip = 2;
@@ -91,7 +90,6 @@ int DriverClient::receiveCommand() {
         sendVerification();
         //RECEIVE COMMAND
         client->reciveData(buffer, sizeof(buffer), 0);
-       // cout << "after receivedata in receiveCommand"<<endl;
 
         string commandString = createString(buffer, sizeof(buffer));
         boost::iostreams::basic_array_source<char> device2(commandString.c_str(), commandString.size());
@@ -99,7 +97,6 @@ int DriverClient::receiveCommand() {
         boost::archive::binary_iarchive ia2(s4);
         ia2 >> command;
         sendVerification();
-        //cout << "after send verification in receiveCommand"<<endl;
 
         if (command == newPoint) {
             DriverClient::receiveNextPoint();
@@ -131,12 +128,10 @@ void DriverClient::closeSocket() {
      * the drivers trip                                                    *
 	***********************************************************************/
 void DriverClient::receiveNextPoint() {
-    //cout << "Enter receive Next Point"<<endl;
     char buffer[1024];
     Trip newTrip;
     //RECEIVE POINT
     client->reciveData(buffer, sizeof(buffer),0);
-    //cout << "after receivedata in receive Next Point"<<endl;
 
     Point* p;
     string nextLocation = createString(buffer, sizeof(buffer));
@@ -144,19 +139,11 @@ void DriverClient::receiveNextPoint() {
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s3(device3);
     boost::archive::binary_iarchive ia(s3);
     ia >> p;
-    //cout << "Deserialized in receive Next Point"<<endl;
 
-    cout << "("<<p->getX()<<","<< p->getY()<<")"<<endl;
     Trip* tripP = driver.getTrip();
-    //cout << "After set trip"<<endl;
 
     tripP->updateStartPoint(p);
-    //cout << "After update startpoint of trip"<<endl;
-
     driver.getTrip()->updateStartPoint(p);
-    //cout << "After update startpoint of driverTrip"<<endl;
-
-    //delete p;
 
 }
 
@@ -232,8 +219,6 @@ string DriverClient::createString(char* buffer, int bufferSize) {
  * client received information
  */
 void DriverClient::sendVerification() {
-
-    //cout << "** before send verification ** "<<endl;
     int verification = 77;
     // SERIALIZATION OF COMMAND
     std::string verify;

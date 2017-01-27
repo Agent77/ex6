@@ -54,7 +54,7 @@ public:
     bool addTrip(Trip* t);
     void updateMeters();
     int checkDestinations();
-    void requestDriverLocation(int driverId);
+    void requestDriverLocation(int driverId, vector<Driver> dr);
     vector <Driver> getDrivers();
     vector<Trip*> getTrips();
     void addTaxi(Taxi t);

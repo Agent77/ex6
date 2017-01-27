@@ -67,16 +67,12 @@ int TaxiCenter::checkDestinations()  {
 * current location.
 */
 
-void TaxiCenter::requestDriverLocation(int driverId){
-    //vector<Driver>::iterator iter = drivers.begin();
+void TaxiCenter::requestDriverLocation(int driverId, vector<Driver> dr){
     int i=0;
-    while(drivers[i].getDriverId() != driverId) {
+    while(dr[i].getDriverId() != driverId) {
         i++;
-        if (i>drivers.size()){
-            cout<<"-1"<<endl;
-        }
     }
-    Coordinate* p = new Point(drivers[i].getTrip()->getStartX(),drivers[i].getTrip()->getStartY());
+    Coordinate* p = new Point(dr[i].getTrip()->getStartX(),dr[i].getTrip()->getStartY());
     cout<< *p <<endl;
     delete p;
 
@@ -183,7 +179,6 @@ bool TaxiCenter::addTrip(Trip* t) {
 
     }
     if(t->hasValidPath()) {
-        cout << "VALID PATH"<<endl;
         trips.push_back(t);
         return true;
     } else {
@@ -277,9 +272,7 @@ void TaxiCenter::moveDriver(int id, Point* p) {
     while(drivers[i].getDriverId() != id) {
         i++;
     }
-    //Coordinate* c = drivers[i].getTrip()->getNextInPath();
     drivers[i].getTrip()->updateStartPoint(p);
-    cout << "New Point in TC: "<< drivers[i].getTrip()->getStart().getX()<< ","<< drivers[i].getTrip()->getStart().getY()<< endl;
 }
 
 bool TaxiCenter::hasTaxi(int id) {
@@ -295,7 +288,6 @@ bool TaxiCenter::hasTaxi(int id) {
 bool TaxiCenter::wdHasDriver(int id, vector<Driver> d) {
     for(int i=0; i<d.size();i++) {
         if(d[i].getDriverId()==id){
-            cout << "("<< d[i].getTrip()->getStart().getX() << ","<<d[i].getTrip()->getStart().getY()<<")"<<endl;
             return true;
         }
     }
