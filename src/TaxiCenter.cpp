@@ -293,3 +293,13 @@ bool TaxiCenter::wdHasDriver(int id, vector<Driver> d) {
     }
     return false;
 }
+
+bool TaxiCenter::hasTrip(int id) {
+    int i;
+    for(i=0; i < trips.size(); i++) {
+        if(trips[i]->getId()==id) {
+            return true;
+        }
+    }
+    return false;
+}

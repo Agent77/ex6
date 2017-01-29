@@ -132,7 +132,7 @@ static void* acceptClients(void* dummy) {
             case 2: {//insert a trip
                 cin >> input;
                 Trip *t = city.createTrip(input);
-                if (t == NULL) {
+                if (t == NULL || tc.hasTrip(t->getId())) {
                     cout << "-1" << endl;
                     break;
                 }

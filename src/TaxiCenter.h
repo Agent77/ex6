@@ -73,6 +73,7 @@ public:
     pthread_t* getTripCalculator(int id);
     bool hasTaxi(int id);
     bool wdHasDriver(int id, vector<Driver> d);
+    bool hasTrip(int id);
 };
 
 
