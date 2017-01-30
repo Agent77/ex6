@@ -24,8 +24,6 @@ Driver::Driver(int driverId, int age, char mStatus, int exp, int vehicleId) {
     this->vehicleId=vehicleId;
     this->hasTripAlready = false;
     this->myTrip = new Trip(0,0,0,0,0,0,0,0);
-
-
 }
 
 /*
@@ -75,7 +73,7 @@ void Driver::setTaxi(Taxi t) {
 }
 
 void Driver::setTrip(Trip* t) {
-    //delete myTrip;
+    delete myTrip;
     myTrip =  t;
     hasTripAlready = true;
 }

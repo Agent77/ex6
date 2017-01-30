@@ -109,7 +109,7 @@ void Trip::isCalculated(int i) {
 void Trip::updateStartPoint(Point p){
     xStart = p.getCoordinates()[0];
     yStart = p.getCoordinates()[1];
-}//sdf
+}
 
 int Trip::getTripTime() {
     return startTime;
@@ -152,10 +152,12 @@ bool Trip::calculatePath() {
     y = this->getEndY();
     end = new Point(x, y);
     path = bfs.getFullPath(start, end);
-    if(path.front()->getMyLocation()->getX() == -1) {
+    Coordinate* p = path.front()->getMyLocation();
+    if(p->getX() == -1) {
         return false;
     }
     this->setPath(path);
+    delete p;
     delete copyGraph;
     delete start;
     delete end;

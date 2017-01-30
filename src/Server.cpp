@@ -59,6 +59,8 @@ vector<pthread_t> threads;
 int main(int argc, char* argv[]) {
     Server s = Server();
     s.initialize();
+    s.myDriver = new Driver(0,1,'M',1,0);
+    s.myDriver->setTrip(new Trip(0,0,0,0,0,0,0,0));
     int portNum = stoi(argv[1]);
     // creates tcp for connection
     tcp = new Tcp(1, portNum);
@@ -121,7 +123,7 @@ static void* acceptClients(void* dummy) {
                 int i;
                 //Opens a thread for each client received
                 for (i = 0; i < numOfClients; i++) {
-                    pthread_t *thread = new pthread_t();
+                    pthread_t* thread =  new pthread_t();
                     Server *tempServer = new Server();
                     int socket = tcp->acceptClient();
                     tempServer->setSocket(socket);
@@ -144,7 +146,6 @@ static void* acceptClients(void* dummy) {
                  * function.
                  */
                 bool validTrip = tc.addTrip(t);
-
                 break;
             }
             case 3: {//Insert a taxi

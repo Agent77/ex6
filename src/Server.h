@@ -40,8 +40,8 @@ public:
     Server();
 
     ~Server() {
-        //delete myDriver->getTrip();
-        //delete myDriver;
+        delete myDriver->getTrip();
+        delete myDriver;
     }
     /***********************************************************************
 	* function name: run												   *

@@ -146,12 +146,13 @@ vector<Coordinate*> BFS::getFullPath(Coordinate* sLoc, Coordinate* dLoc){
         node = node->getPrev();
     }
     int i = 1;
-    Coordinate* p= *(tempPath.end());
+    Coordinate* p = *(tempPath.end());
     while(i<= tempPath.size()){
         Coordinate* p = new Point(*(tempPath.end() - i));
         path.push_back(p);
         i++;
     }
+
     return path;
 }
 

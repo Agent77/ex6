@@ -140,7 +140,7 @@ std::vector<Node*> Grid::getNeighbors(Node* n) {
     if((y - 1) >= 0) {
         //6 o'clock neighbor
         Node* node = arrayOfPtrsToNodes[point.getX()][point.getY() - 1];
-        if(!(node->isVisited())){
+        if(!(node->isVisited())) {
             if(!node->isObstacle()) {
                 node->setPrev(*n);
                 neighbors.push_back(node);
