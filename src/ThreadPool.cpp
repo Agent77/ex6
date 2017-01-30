@@ -56,6 +56,9 @@ void ThreadPool::terminate() {
 ThreadPool::~ThreadPool() {
     // TODO ADDED TERMINATE MAY NEED TO remove
     terminate();
+    for (int i = 0; i < 5; i++) {
+        pthread_join(calculatorThreads[i], NULL);
+    }
     delete[] calculatorThreads;
     pthread_mutex_destroy(&lock);
 }

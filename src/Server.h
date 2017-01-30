@@ -38,6 +38,11 @@ public:
     Driver* myDriver;
     bool assisted;
     Server();
+
+    ~Server() {
+        //delete myDriver->getTrip();
+        //delete myDriver;
+    }
     /***********************************************************************
 	* function name: run												   *
 	* The Input: none													   *

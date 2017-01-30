@@ -48,6 +48,7 @@ Socket* tcp;
 int allClientsAssisted;
 int numOfClients;
 int threadsExited;
+vector<pthread_t> threads;
 
 /***********************************************************************
 	* function name: main										       *
@@ -94,7 +95,7 @@ static void* acceptClients(void* dummy) {
             if (firstTime){
                 firstTime = false;
             } else{
-                cout<<" -1"<<endl;
+                cout<<"-1"<<endl;
             }
             cin >> action1;
         } while (action1.size()!=1 || !city.isNumber(action1));
@@ -125,6 +126,7 @@ static void* acceptClients(void* dummy) {
                     int socket = tcp->acceptClient();
                     tempServer->setSocket(socket);
                     pthread_create(thread, NULL, assist, (void *) tempServer);
+                    threads.push_back(*thread);
                 }
                 break;
             }
@@ -133,7 +135,6 @@ static void* acceptClients(void* dummy) {
                 cin >> input;
                 Trip *t = city.createTrip(input);
                 if (t == NULL || tc.hasTrip(t->getId())) {
-                    cout << "-1" << endl;
                     break;
                 }
                 t->setMap(tc.getMap());
@@ -205,6 +206,9 @@ static void* acceptClients(void* dummy) {
         continue;
     }
     delete tcp;
+    for(int i=0; i< numOfClients; i++) {
+        pthread_join(threads[i], NULL);
+    }
     pthread_exit(0);
 }
 
@@ -344,7 +348,7 @@ void Server::initialize() {
         }
     }while (!isValid);
     //adds grid to the taxi center
-    tc = TaxiCenter(grid);
+    tc.setGrid(grid);
 }
 
 /***********************************************************************
@@ -379,8 +383,7 @@ void Server::SendTripToClient() {
              * Finds the driver which is waiting
              * at the start point of that trip
             */
-            while (!waitingDrivers[i].getTrip()->getEnd().equal(&p)
-                   && i < waitingDrivers.size()) {
+            while (i < waitingDrivers.size() && !waitingDrivers[i].getTrip()->getEnd().equal(&p)) {
                 i++;
             }
             /* if thread has same driver id as next driver in line,
@@ -447,6 +450,7 @@ void Server::receiveDriver() {
     //adds received driver to temp vector of drivers, until it is assigned a trip
     myDriver = receivedDriver;
     waitingDrivers.push_back(*myDriver);
+    //delete myDriver->getTrip();
 }
 
 /***********************************************************************
@@ -505,8 +509,6 @@ void Server::sendNextLocation() {
             }
             //Gets next point to send to client
             Point *ptrPoint = myDriver->getTrip()->getNextInPath();
-            sleep(1);
-
             //Updates location of same driver in taxi station
             tc.moveDriver(myDriver->getDriverId(), ptrPoint);
             //Updates thread's driver current location

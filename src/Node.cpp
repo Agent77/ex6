@@ -64,7 +64,7 @@ void Node::setPrev(Node& n) {
     prev = &n;
 }
 Node::~Node() {
-
+    //delete myLocation;
 }
 
 Coordinate* Node::getMyLocation() {

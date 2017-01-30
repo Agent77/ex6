@@ -117,6 +117,7 @@ int DriverClient::receiveCommand() {
 	* The Function operation: closes socket to server                      *
 	***********************************************************************/
 void DriverClient::closeSocket() {
+    delete driver.getTrip();
     delete client;
 }
 
@@ -144,6 +145,7 @@ void DriverClient::receiveNextPoint() {
 
     tripP->updateStartPoint(p);
     driver.getTrip()->updateStartPoint(p);
+    //delete p;
 
 }
 

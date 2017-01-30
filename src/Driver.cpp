@@ -75,13 +75,14 @@ void Driver::setTaxi(Taxi t) {
 }
 
 void Driver::setTrip(Trip* t) {
+    //delete myTrip;
     myTrip =  t;
     hasTripAlready = true;
 }
 
 
 Driver::~Driver() {
-
+   // delete myTrip;
 }
 
 int Driver::getVehicleId() {

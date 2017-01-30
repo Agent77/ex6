@@ -37,7 +37,11 @@ private:
     bool started;
     ThreadPool* pathCalculator;
 public:
-    TaxiCenter(){};
+    TaxiCenter(){
+        started = false;
+        pathCalculator = new ThreadPool(5);
+    };
+    void setGrid(Graph* m);
     TaxiCenter(Graph* map1);
     ~TaxiCenter() {
         taxis.clear();
@@ -45,6 +49,7 @@ public:
         drivers.clear();
         vector<Driver>().swap(drivers);
         trips.clear();
+        delete pathCalculator;
         //vector<Trip>().swap(trips);
     };
     int assignDrivers();

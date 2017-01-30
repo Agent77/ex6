@@ -26,7 +26,9 @@ using namespace std;
 #include <string.h>
 
 using namespace std;
-
+void TaxiCenter::setGrid(Graph* map1) {
+    map = map1;
+}
 TaxiCenter::TaxiCenter(Graph* map1) {
     map = map1;
     started = false;

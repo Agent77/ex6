@@ -161,8 +161,11 @@ std::vector<Node*> Grid::getNeighbors(Node* n) {
     }
 
     if(invalidVisitedCounter == 4) {
-        cout << "Four invalid neighbors! I'm stuck!"<<endl;
-        neighbors.push_back(new Node(new Point(-1,-1)));
+       // cout << "Four invalid neighbors! I'm stuck!"<<endl;
+        Point* pointer = new Point(-1,-1);
+        neighbors.push_back(new Node(pointer));
+        //sleep(1);
+        //delete p;
     }
 
     return neighbors;

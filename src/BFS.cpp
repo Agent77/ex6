@@ -65,6 +65,7 @@ bool BFS::getPath() {
          */
         vector<Node*> checkValid = visitNeighbors(newSource);
         if(checkValid.front()->getMyLocation()->getX() == -1) {
+            //delete checkValid.front();
             return false;
         }
         /*
